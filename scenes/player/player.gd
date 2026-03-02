@@ -42,12 +42,12 @@ func _ready():
 	
 	if Global.username: nameplate.text = Global.username
 	
-	label_session.text = Network.tube_client.session_id
+	label_session.text = Network.current_session_id
 	camera_3d.current = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	button_leave.pressed.connect(func(): Network.leave_server())
-	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
-	DisplayServer.clipboard_set(Network.tube_client.session_id)
+	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.current_session_id))
+	DisplayServer.clipboard_set(Network.current_session_id)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:

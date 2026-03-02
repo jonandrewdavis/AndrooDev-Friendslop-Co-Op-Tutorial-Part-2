@@ -162,7 +162,6 @@ func _raise_error(p_code: int, p_message: String):
 	printerr(p_message)
 	error_raised.emit(p_code, p_message)
 
-
 func _ready() -> void:
 	var node_path := NodePath()
 	if is_instance_valid(multiplayer_root_node):

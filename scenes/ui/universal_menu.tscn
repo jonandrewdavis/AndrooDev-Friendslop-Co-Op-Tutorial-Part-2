@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://bdfqkb17jfva"]
+
+[ext_resource type="Script" uid="uid://ca7utkloa4jua" path="res://scenes/ui/universal_menu.gd" id="1_7rbdq"]
+[ext_resource type="Texture2D" uid="uid://b4jdl1ipes5d0" path="res://addons/tube/inspector/icons/send_icon.tres" id="2_f2ujq"]
+[ext_resource type="Texture2D" uid="uid://vj4v31qi6u4d" path="res://addons/tube/inspector/icons/success_icon.tres" id="3_ckgpp"]
+[ext_resource type="Texture2D" uid="uid://wcdvmyl01v1p" path="res://addons/tube/inspector/icons/error_icon.tres" id="4_4h3yc"]
+
+[node name="UniversalMenu" type="CanvasLayer" unique_id=539861531]
+script = ExtResource("1_7rbdq")
+
+[node name="Control" type="Control" parent="." unique_id=92875038]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control" unique_id=1165220032]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -164.5
+offset_right = 125.0
+offset_bottom = 164.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer" unique_id=830909012]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TubeMenu" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer" unique_id=240422433]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelTitle" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=666114509]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Androo Peer Test"
+
+[node name="LabelError" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=522431117]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.09411765, 0, 1)
+text = "Something went wrong"
+horizontal_alignment = 1
+
+[node name="LabelUsername" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1440671486]
+layout_mode = 2
+text = "Username:"
+
+[node name="LineEditUsername" type="LineEdit" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=2072722264]
+unique_name_in_owner = true
+layout_mode = 2
+max_length = 12
+
+[node name="H1" type="HSeparator" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1431614756]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LabelSessionid" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1739415060]
+layout_mode = 2
+text = "Session ID:"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1445438178]
+layout_mode = 2
+
+[node name="LineEditSession" type="LineEdit" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=806309339]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonJoin" type="Button" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1040063267]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+text = "Join"
+icon = ExtResource("2_f2ujq")
+icon_alignment = 2
+
+[node name="H2" type="HSeparator" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=957647272]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ButtonHost" type="Button" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=446768939]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+text = "Create Session"
+icon = ExtResource("3_ckgpp")
+icon_alignment = 2
+
+[node name="H3" type="HSeparator" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1487112130]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ButtonQuit" type="Button" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1764886527]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+text = "Quit"
+icon = ExtResource("4_4h3yc")
+icon_alignment = 2

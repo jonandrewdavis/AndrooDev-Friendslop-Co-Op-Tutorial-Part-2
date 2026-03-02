@@ -27,7 +27,7 @@ window/size/always_on_top=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/tile-run-instances/plugin.cfg", "res://addons/tube/plugin.cfg")
+enabled=PackedStringArray("res://addons/freemp/plugin.cfg", "res://addons/nodetunnel/plugin.cfg", "res://addons/tile-run-instances/plugin.cfg", "res://addons/tube/plugin.cfg")
 
 [file_customization]
 
