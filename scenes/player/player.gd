@@ -39,7 +39,7 @@ func _ready():
 		set_physics_process(false)
 		canvas_layer.hide()
 		return
-	
+
 	if Global.username: nameplate.text = Global.username
 	
 	label_session.text = Network.current_session_id

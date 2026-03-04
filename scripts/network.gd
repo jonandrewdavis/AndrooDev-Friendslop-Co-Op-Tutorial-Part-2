@@ -13,16 +13,27 @@ var node_tunnel_id := 'vki6jrs3ezr133x'
 var tube_client := TubeClient.new()
 const TUBE_CONTEXT = preload("uid://chqw3jdoon6c1")
 
+var peer_selected: PEERS
+
 # ENUM? 
-var enet_enabled := false
+enum PEERS { 
+	Enet,
+	NodeTunnel,
+	Tube,	
+	Steam,
+	Websockets
+}
+
+var enet_enabled := true
 var node_enabled := false
-var tube_enabled := true
+var tube_enabled := false
 
 var current_session_id := ''
 var host_function: Callable
 var join_function: Callable
 
 signal signal_error_raised
+
 
 func _ready() -> void:
 	# TODO: Move these into "ready_xyz" functions?
@@ -32,7 +43,6 @@ func _ready() -> void:
 			join_function = join_server
 		node_enabled:
 			node_peer = NodeTunnelPeer.new()
-			multiplayer.connected_to_server.disconnect(on_connected_to_server)
 			node_peer.authenticated.connect(handle_node_tunnel_ready)
 			node_peer.room_connected.connect(handle_room_ready)
 			node_peer.error.connect(handle_error_raised)
@@ -59,7 +69,7 @@ func host():
 func join(session_id: String = ''):
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
-	multiplayer.connected_to_server.connect(on_connected_to_server)
+	multiplayer.connected_to_server.connect(add_player_self)
 	join_function.call(session_id)
 
 #region Peer Implementations
@@ -88,7 +98,7 @@ func join_node(session_id: String):
 
 #region 	
 
-func on_connected_to_server():
+func add_player_self():
 	add_player(multiplayer.get_unique_id())
 
 func add_player(peer_id: int):
@@ -125,8 +135,8 @@ func clean_up_signals():
 		multiplayer.peer_connected.disconnect(add_player) 
 	if multiplayer.peer_disconnected.is_connected(remove_player):
 		multiplayer.peer_disconnected.disconnect(remove_player)
-	if multiplayer.connected_to_server.is_connected(on_connected_to_server):
-		multiplayer.connected_to_server.disconnect(on_connected_to_server)
+	if multiplayer.connected_to_server.is_connected(add_player_self):
+		multiplayer.connected_to_server.disconnect(add_player_self)
 
 func _exit_tree() -> void:
 	if tube_enabled:
@@ -138,7 +148,6 @@ func handle_node_tunnel_ready():
 func handle_room_ready():
 	current_session_id = node_peer.room_id
 	DisplayServer.clipboard_set(node_peer.room_id)
-	on_connected_to_server()
 
 func handle_error_raised(..._args):
 	clean_up_signals()

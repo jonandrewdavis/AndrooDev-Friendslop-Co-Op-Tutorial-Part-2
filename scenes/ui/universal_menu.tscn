@@ -45,7 +45,7 @@ layout_mode = 2
 [node name="LabelTitle" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=666114509]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Androo Peer Test"
+text = "AndrooDev Peer Test"
 
 [node name="LabelError" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=522431117]
 unique_name_in_owner = true
@@ -53,6 +53,17 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.09411765, 0, 1)
 text = "Something went wrong"
 horizontal_alignment = 1
+
+[node name="LabelUsername2" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=853042758]
+layout_mode = 2
+text = "Select Peer:"
+
+[node name="OptionButton" type="OptionButton" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1666092831]
+layout_mode = 2
+
+[node name="H4" type="HSeparator" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1417941875]
+layout_mode = 2
+theme_override_constants/separation = 24
 
 [node name="LabelUsername" type="Label" parent="Control/PanelContainer/MarginContainer/TubeMenu" unique_id=1440671486]
 layout_mode = 2
