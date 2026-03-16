@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_joa4x")
 app_id = "HUU9+)rs-yUMUnm"
-trackers_urls = Array[String](["wss://tracker.openwebtorrent.com", "wss://tracker.files.fm:7073/announce", "wss://tracker.btorrent.xyz/"])
-stun_servers_urls = Array[String](["stun:stun.l.google.com:19302", "stun:stun.cloudflare.com:3478", "stun:stun.bethesda.net:3478"])
+session_id_characters_set = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
+trackers_urls = Array[String](["wss://tracker.androodev.com"])
+stun_servers_urls = Array[String](["stun:stun.l.google.com:19302", "stun:stun.cloudflare.com:3478"])
 metadata/_custom_type_script = "uid://t4pe7yqc3pnt"

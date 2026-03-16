@@ -182,6 +182,8 @@ func send_stop(p_info_hash: String, p_peer_id_hash: String) -> Error:
 
 
 func _received_packet(p_packet: PackedByteArray):
+
+
 	var data = decode_packet(p_packet)
 	if not data is Dictionary:
 		raise_warning("Received invalid packet: {packet}".format({
