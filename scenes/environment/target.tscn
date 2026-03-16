@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dcm3i5uxyav7q" path="res://scenes/environment/target.gd" id="1_386so"]
 [ext_resource type="Texture2D" uid="uid://cpmagt62gitit" path="res://assets/kenney_prototype-textures/PNG/Orange/texture_09.png" id="1_dvk77"]
+[ext_resource type="PackedScene" uid="uid://3twuvdlmdi7j" path="res://assets/animations/AnimationLibrary_Godot_Standard.glb" id="3_yyeac"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_386so"]
-size = Vector3(1, 2, 1)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yyeac"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyeac"]
 albedo_texture = ExtResource("1_dvk77")
@@ -22,13 +22,15 @@ properties/1/path = NodePath(".:health")
 properties/1/spawn = true
 properties/1/replication_mode = 2
 
-[node name="Target" type="StaticBody3D" unique_id=1086129047]
+[node name="Target" type="CharacterBody3D" unique_id=772394192]
 script = ExtResource("1_386so")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=766082793]
-shape = SubResource("BoxShape3D_386so")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_yyeac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=800688659]
+visible = false
 mesh = SubResource("BoxMesh_8ha04")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1520026565]
@@ -42,3 +44,64 @@ alpha_antialiasing_mode = 1
 text = "1"
 font_size = 12
 outline_size = 6
+
+[node name="AnimationLibrary_Godot_Standard" parent="." unique_id=1312872203 instance=ExtResource("3_yyeac")]
+
+[node name="Skeleton3D" parent="AnimationLibrary_Godot_Standard/Rig" parent_id_path=PackedInt32Array(1312872203, 1992466410) index="0" unique_id=798086680]
+bones/1/position = Vector3(-0.011669749, 0.049801953, 0.8742469)
+bones/1/rotation = Quaternion(0.78994673, 0.026709713, -0.0059830854, 0.61256415)
+bones/3/rotation = Quaternion(-0.05080197, 0.0062617306, 0.014530794, 0.99858344)
+bones/4/rotation = Quaternion(0.07944203, 0.015567465, 0.0027198093, 0.9967143)
+bones/5/rotation = Quaternion(0.0579068, -0.009873503, 0.0028047494, 0.9982693)
+bones/6/rotation = Quaternion(-0.019654095, -0.009262737, 0.004611746, 0.99975336)
+bones/7/rotation = Quaternion(-0.6184988, -0.3184275, -0.32917932, 0.6385172)
+bones/8/rotation = Quaternion(-0.22033416, 0.6567864, -0.5633549, 0.45023978)
+bones/9/rotation = Quaternion(0.2426972, 0.14771116, -0.081366226, 0.9553319)
+bones/10/rotation = Quaternion(0.10600874, 0.006375735, -0.02567428, 0.9940133)
+bones/11/rotation = Quaternion(0.44519073, 0.54936886, -0.4451941, 0.5493646)
+bones/12/rotation = Quaternion(0.62334144, -1.4827206e-07, 9.1571266e-08, 0.78194976)
+bones/13/rotation = Quaternion(0.62334156, -1.7269876e-07, 3.453962e-08, 0.7819497)
+bones/14/rotation = Quaternion(0.43208995, 0.53869975, -0.45804647, 0.559727)
+bones/15/rotation = Quaternion(0.62334096, 0.0009435343, 0.0011835524, 0.78194875)
+bones/16/rotation = Quaternion(0.62334126, -0.00070421625, -0.00088325114, 0.78194916)
+bones/17/rotation = Quaternion(0.504057, 0.5115414, -0.43515164, 0.5430424)
+bones/18/rotation = Quaternion(0.62316304, -0.020061238, 0.014925396, 0.7816922)
+bones/19/rotation = Quaternion(0.6233414, 0.00037986465, 0.00047673858, 0.7819495)
+bones/20/rotation = Quaternion(0.43533975, 0.54135597, -0.454904, 0.5572033)
+bones/21/rotation = Quaternion(0.62334186, 7.517797e-06, 9.556624e-06, 0.78194946)
+bones/22/rotation = Quaternion(0.62334085, -0.0006652732, -0.00083433243, 0.7819495)
+bones/23/rotation = Quaternion(0.29083818, 0.9496492, 0.114583485, 0.021217067)
+bones/24/rotation = Quaternion(0.21939024, 0.023802642, -0.0053047426, 0.9753324)
+bones/25/rotation = Quaternion(0.6873877, -0.0003090372, -0.0004445198, 0.7262906)
+bones/26/rotation = Quaternion(-0.6040205, 0.345103, 0.35671774, 0.62355083)
+bones/27/rotation = Quaternion(-0.25272125, -0.6506626, 0.56961155, 0.43395042)
+bones/28/rotation = Quaternion(0.19728486, -0.01270859, 0.045332033, 0.97921515)
+bones/29/rotation = Quaternion(0.1060088, -0.006375582, 0.02567435, 0.9940133)
+bones/30/rotation = Quaternion(0.4451908, -0.5493688, 0.44519413, 0.54936445)
+bones/31/rotation = Quaternion(0.62334156, 2.370209e-07, -9.26873e-08, 0.7819497)
+bones/32/rotation = Quaternion(0.6233418, 3.037103e-08, 1.643617e-07, 0.7819495)
+bones/33/rotation = Quaternion(0.43208995, -0.53869975, 0.4580465, 0.559727)
+bones/34/rotation = Quaternion(0.62334096, -0.0009433208, -0.0011836477, 0.78194875)
+bones/35/rotation = Quaternion(0.62334114, 0.00070442114, 0.00088340824, 0.7819493)
+bones/36/rotation = Quaternion(0.50405663, -0.5115416, 0.43515173, 0.5430424)
+bones/37/rotation = Quaternion(0.6231634, 0.020061124, -0.0149255665, 0.7816919)
+bones/38/rotation = Quaternion(0.62334126, -0.00037992414, -0.00047659926, 0.78194976)
+bones/39/rotation = Quaternion(0.4353397, -0.541356, 0.454904, 0.55720323)
+bones/40/rotation = Quaternion(0.62334174, -7.279088e-06, -9.647335e-06, 0.7819496)
+bones/41/rotation = Quaternion(0.6233412, 0.00066526583, 0.0008345926, 0.78194934)
+bones/42/rotation = Quaternion(-0.29083812, 0.9496492, 0.11458363, -0.021217152)
+bones/43/rotation = Quaternion(0.21939026, -0.023802757, 0.005304789, 0.9753323)
+bones/44/rotation = Quaternion(0.6873883, 0.0003090679, 0.0004443162, 0.72629)
+bones/45/rotation = Quaternion(0.9444878, 0.019847268, -0.0024471118, 0.3279374)
+bones/46/rotation = Quaternion(0.08217322, 0.0011401549, -0.00010362708, 0.9966174)
+bones/47/rotation = Quaternion(-0.5809096, 0.013552334, 0.015294177, 0.81371164)
+bones/48/rotation = Quaternion(-0.0001371772, 0.9643068, -0.26478708, -0.000499407)
+bones/49/rotation = Quaternion(0.99910945, 0.02815646, -0.0034716118, 0.031235103)
+bones/50/rotation = Quaternion(0.26109645, 0.0041331146, -0.0011278884, 0.9653033)
+bones/51/rotation = Quaternion(-0.53260934, 0.019601181, -0.022234794, 0.84584194)
+bones/52/rotation = Quaternion(0.015593333, 0.8349771, -0.5500627, -0.0011720221)
+
+[node name="AnimationPlayer" parent="AnimationLibrary_Godot_Standard" index="1" unique_id=831270214]
+autoplay = &"Walk_Formal"
+
+[editable path="AnimationLibrary_Godot_Standard"]

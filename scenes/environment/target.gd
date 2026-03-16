@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends CharacterBody3D
 
 @export var health := 100
 
