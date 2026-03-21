@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c06gks0biq762" path="res://scenes/environment/world_forest.gd" id="1_3pli8"]
 [ext_resource type="Texture2D" uid="uid://durlbko8p6y4e" path="res://assets/kenney_prototype-textures/Vector/texture_08.svg" id="1_b5dff"]
 [ext_resource type="Texture2D" uid="uid://blvb6t4n6gmvm" path="res://assets/kenney_prototype-textures/PNG/Green/texture_09.png" id="2_3pli8"]
+[ext_resource type="PackedScene" uid="uid://cypdi1lb7klts" path="res://assets/models/crystal/scene.gltf" id="4_1o1l2"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mloxv"]
 
@@ -162,3 +163,6 @@ shape = SubResource("WorldBoundaryShape3D_1o1l2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D4" unique_id=1021326278]
 mesh = SubResource("PlaneMesh_j6fc8")
+
+[node name="Sketchfab_Scene" parent="." unique_id=2132935976 instance=ExtResource("4_1o1l2")]
+transform = Transform3D(1, 0, 0, 0, 0.9465367, 0.32259613, 0, -0.32259613, 0.9465367, 0, -1.9905224, 0)

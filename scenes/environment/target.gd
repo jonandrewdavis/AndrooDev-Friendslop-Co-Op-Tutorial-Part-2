@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var health := 100
 
 var is_dying := false
+var is_damaged := false
 
 func _ready():
 	add_to_group('Targets')
@@ -16,13 +17,13 @@ func _ready():
 	var new_material = material.duplicate()
 	new_material.albedo_color = Color.DARK_MAGENTA
 	mannequin.set_surface_override_material(0, new_material)
+	look_at(target)
 
 func take_damage(damage: int, source: int):
 	if is_dying:
 		return 
 		
 	var next_health = health - damage
-	animation_player.play("Hit_Chest")
 
 	var player_to_notify: Player
 	for current_player in get_tree().get_nodes_in_group('Players'):
@@ -39,22 +40,37 @@ func take_damage(damage: int, source: int):
 	else:
 		health = next_health
 		player_to_notify.register_hit.rpc_id(source)
+		is_damaged = true
+		animation_player.play("Hit_Chest")
+		await animation_player.animation_finished
+		is_damaged = false
+
 
 func death():
+	set_collision_layer_value(1, false)
 	is_dying = true
 	animation_player.play("Death01")
 	await animation_player.animation_finished
 	queue_free()
 
-
-var SPEED := 5.0
+var SPEED := 3.0
+var target := Vector3.ZERO
 var direction := Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	if is_dying or is_damaged or not is_multiplayer_authority():
+		return 
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+	
+	if position.distance_to(target) > 3.0:
+		direction = position.direction_to(target)
+		animation_player.play("Walk_Formal")
+	else:
+		direction = Vector3.ZERO
+		animation_player.play("Punch_Jab")
+	
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
