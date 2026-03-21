@@ -1,4 +1,3 @@
-@tool
 extends CharacterBody3D
 
 @onready var animation_player: AnimationPlayer = $AnimationLibrary_Godot_Standard/AnimationPlayer
@@ -69,7 +68,7 @@ func _physics_process(delta: float) -> void:
 		animation_player.play("Walk_Formal")
 	else:
 		direction = Vector3.ZERO
-		animation_player.play("Punch_Jab")
+		animation_player.play("Spell_Simple_Shoot")
 	
 	if direction:
 		velocity.x = direction.x * SPEED

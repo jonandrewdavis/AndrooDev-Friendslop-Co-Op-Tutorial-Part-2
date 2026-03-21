@@ -75,7 +75,7 @@ settings/0/end_bone/length = 0.1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07560158, -0.12454414, -0.4190972)
 
 [node name="Weapon" type="Node3D" parent="." unique_id=204858693]
-transform = Transform3D(0.9931257, 0.11705205, 0, -0.11705205, 0.9931257, 0, 0, 0, 0.9999998, 0.33617833, -0.52601266, -1.1528939)
+transform = Transform3D(0.48758513, 0.025985308, -0.8726884, 0.8656599, 0.11561025, 0.48710054, 0.1135492, -0.99295455, 0.033875402, 0.33617833, -0.52601266, -1.1528939)
 
 [node name="Root Scene" parent="Weapon" unique_id=509453031 instance=ExtResource("2_q46v1")]
 

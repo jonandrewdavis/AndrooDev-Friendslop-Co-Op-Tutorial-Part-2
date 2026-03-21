@@ -2,7 +2,8 @@ extends CharacterBody3D
 
 class_name Player
 
-@export var sensitivity: float = 0.002
+const DEFAULT_SENS =  0.002
+@export var sensitivity: float = DEFAULT_SENS
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
@@ -25,8 +26,8 @@ const JUMP_VELOCITY = 4.5
 @onready var animation_library_godot_standard: Node3D = %AnimationLibrary_Godot_Standard
 @onready var animation_player: AnimationPlayer = $Head/AnimationLibrary_Godot_Standard/AnimationPlayer
 
-#@onready var arms_root: Node3D = %ArmsRoot
-#@export var sword_animation_player: AnimationPlayer
+@onready var arms_root: Node3D = %ArmsRoot
+@export var sword_animation_player: AnimationPlayer
 
 var immobile := false
 
@@ -38,9 +39,9 @@ func _ready():
 	player_ui.hide()	
 	nameplate.text = name
 	animation_player.playback_default_blend_time = 0.2
-	#sword_animation_player.playback_default_blend_time = 0.2
-	#sword_animation_player.speed_scale = 0.7
-	#arms_root.hide()
+	sword_animation_player.playback_default_blend_time = 0.2
+	sword_animation_player.speed_scale = 0.7
+	arms_root.hide()
 
 	if not is_multiplayer_authority():
 		set_process(false)
@@ -51,7 +52,8 @@ func _ready():
 	ready_client_menu()
 
 func ready_client_visuals():
-	#animation_library_godot_standard.hide()
+	arms_root.show()
+	animation_library_godot_standard.hide()
 	camera_3d.current = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if Global.username: 
@@ -82,8 +84,14 @@ func _process(_delta: float) -> void:
 	if immobile:
 		return
 
-	if Input.is_action_just_pressed('shoot'):
-		shoot()	
+	#if Input.is_action_just_pressed('shoot'):
+		#shoot()	
+
+	if Input.is_action_just_pressed('swing'):
+		attack(1)
+	
+	if Input.is_action_just_pressed('bonk'):
+		attack(2)
 
 func open_menu(current_visibility: bool):
 	menu.visible = !current_visibility
@@ -129,30 +137,43 @@ func handle_animation(direction: Vector3):
 
 	if velocity.y == 0.0:
 		if direction.x != 0.0 or direction.x != 0.0:
-			animation_player.play("Walk")
+			animation_player.play("Jog_Fwd")
 		else:
 			animation_player.play("Idle")
 	else:
 		animation_player.play("Jump")
 
 
-
 var can_shoot := true
 
 func shoot():
-	if can_shoot == false:
-		return 
-		
-	can_shoot = false
 	var force = 100
 	var pos = global_position
 	var shoot_dir = get_shoot_direction()
 	Global.shoot_ball.rpc_id(1, pos, shoot_dir, force)
-	#sword_animation_player.play("arm_model_animations/swing_01")
-	animation_player.play("Sword_Attack")
-	await animation_player.animation_finished
-	can_shoot = true
-	
+
+var can_attack := true
+
+@onready var hurt_box: HurtBox = %HurtBox
+
+# TODO: Combine
+func attack(version: int):
+	if can_attack:
+		if version == 1:
+			hurt_box.current_damage = 25
+		elif version == 2:
+			hurt_box.current_damage = 50
+
+		sensitivity = sensitivity * 0.4
+		hurt_box.bodies_hit.clear()
+		can_attack = false
+		animation_player.play("Sword_Attack")
+		sword_animation_player.play("arm_model_animations/swing_0" + str(version))
+		await sword_animation_player.animation_finished
+		sword_animation_player.play("arm_model_animations/idle")
+		can_attack = true
+		sensitivity = DEFAULT_SENS
+
 func get_shoot_direction():
 	var viewport_rect = get_viewport().get_visible_rect().size
 	var raycast_start = camera_3d.project_ray_origin(viewport_rect / 2)
