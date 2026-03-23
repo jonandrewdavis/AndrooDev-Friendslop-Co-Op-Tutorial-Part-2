@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dcnuxmbq8e3gv"]
 
 [ext_resource type="Texture2D" uid="uid://cbdyinv6pi8lg" path="res://assets/kenney_prototype-textures/PNG/Red/texture_12.png" id="1_aj01g"]
-[ext_resource type="Script" uid="uid://it5xb6qpcc32" path="res://scripts/interact_component.gd" id="1_feix5"]
-[ext_resource type="Script" uid="uid://c62tle5bgx30p" path="res://scripts/pickup_component.gd" id="3_kwdh2"]
+[ext_resource type="Script" uid="uid://cdlc4fxek7vye" path="res://scenes/environment/barrel.gd" id="1_dgqd5"]
+[ext_resource type="Script" uid="uid://c62tle5bgx30p" path="res://scripts/carry_component.gd" id="2_feix5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_nomau"]
 
@@ -14,9 +14,31 @@ uv1_triplanar = true
 [sub_resource type="CylinderMesh" id="CylinderMesh_h12du"]
 material = SubResource("StandardMaterial3D_rmuiu")
 
-[node name="Barrel" type="RigidBody3D" unique_id=2030434800]
-script = ExtResource("1_feix5")
-label = "Barrel"
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_feix5"]
+properties/0/path = NodePath(".:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("..:angular_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("..:linear_velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("..:owner_peer_id")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("..:tracked_position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[node name="Barrel" type="RigidBody3D" unique_id=2030434800 node_paths=PackedStringArray("carry_component", "label")]
+script = ExtResource("1_dgqd5")
+carry_component = NodePath("CarryComponent")
+display_string = "Barrel"
+label = NodePath("Label3D")
+
+[node name="CarryComponent" type="Node3D" parent="." unique_id=1790355887]
+script = ExtResource("2_feix5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353955382]
 shape = SubResource("CylinderShape3D_nomau")
@@ -24,5 +46,8 @@ shape = SubResource("CylinderShape3D_nomau")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1385553904]
 mesh = SubResource("CylinderMesh_h12du")
 
-[node name="PickupComponent" type="Node3D" parent="." unique_id=1790355887]
-script = ExtResource("3_kwdh2")
+[node name="Label3D" type="Label3D" parent="." unique_id=760814237]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2057344760]
+root_path = NodePath("../Label3D")
+replication_config = SubResource("SceneReplicationConfig_feix5")

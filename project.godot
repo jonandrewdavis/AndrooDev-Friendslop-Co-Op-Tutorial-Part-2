@@ -22,10 +22,6 @@ TileRunInstancesGlobal="*uid://b6fg6pu2bfi14"
 Global="*uid://d1r3eqtrbojy0"
 PhantomCameraManager="*uid://duq6jhf6unyis"
 
-[display]
-
-window/size/always_on_top=true
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg", "res://addons/tile-run-instances/plugin.cfg", "res://addons/tube/plugin.cfg")

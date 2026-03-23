@@ -1,24 +1,34 @@
+@abstract
 extends Node3D
-
-# Detects and connects interact actions 
-
 class_name InteractComponent
 
-signal signal_interact
+@export var display_string: String
+@export var label: Label3D
 
-@export var label: = 'Interact'
+@export var owner_peer_id: int = 0: set = _set_owner_peer_id	
+var owner_player: Player = null
 
-# Enum of the type of pickup or activate
+@abstract
+@rpc('any_peer', 'call_local')
+func interact(...args)
 
-var component: Node3D 
+@abstract
+@rpc('any_peer', 'call_local') 
+func interact_secondary(...args)
 
-
-# TODO: better way to search, or just use export.
 func _ready() -> void:
-	pass
-	#for child in get_children():
-		#if child is PickupComponent:
-			#print(child)
-			#
-		#if child is ActivateComponent:
-			#print(child)
+	if not display_string:
+		printerr("No display name for interactable", name)
+		
+	if not label:
+		printerr("No label for interactable", name)
+
+func _set_owner_peer_id(id):
+	owner_peer_id = id
+	if id == 0:
+		if owner_player:
+			owner_player.interact_area.set_current_interactable.rpc_id(owner_player.get_multiplayer_authority(), null)
+			owner_player = null
+	else:
+		owner_player = Global.get_player(id)
+		owner_player.interact_area.set_current_interactable.rpc_id(owner_player.get_multiplayer_authority(), self.get_path())

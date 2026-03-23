@@ -19,6 +19,7 @@ const JUMP_VELOCITY = 4.5
 @onready var controls: VBoxContainer = %Controls
 @onready var hit_marker: Label = %HitMarker
 @onready var player_ui: CanvasLayer = %PlayerUi
+@onready var label_interact: Label = %LabelInteract
 
 @onready var sound_hit: AudioStreamPlayer = %SoundHit
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
@@ -26,10 +27,15 @@ const JUMP_VELOCITY = 4.5
 @onready var animation_library_godot_standard: Node3D = %AnimationLibrary_Godot_Standard
 @onready var animation_player: AnimationPlayer = $Head/AnimationLibrary_Godot_Standard/AnimationPlayer
 
+
 @onready var arms_root: Node3D = %ArmsRoot
 @export var sword_animation_player: AnimationPlayer
+@onready var hurt_box: HurtBox = %HurtBox
+@onready var interact_area: InteractArea = %InteractArea
+@export var tracked_velocity: Vector3
 
 var immobile := false
+var can_attack := true
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
@@ -67,6 +73,8 @@ func ready_client_menu():
 	button_leave.pressed.connect(func(): Network.leave_server())
 	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
 	DisplayServer.clipboard_set(Network.tube_client.session_id)
+	interact_area.signal_display_text.connect(update_interact_text)
+	interact_area.signal_is_holding.connect(update_is_holding)
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:
@@ -78,6 +86,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func _process(_delta: float) -> void:
+	tracked_velocity = velocity
+
 	if Input.is_action_just_pressed('menu'):
 		open_menu(menu.visible)
 		
@@ -94,7 +104,7 @@ func _process(_delta: float) -> void:
 		attack(2)
 
 	if Input.is_action_just_pressed('interact'):
-		hold()
+		interact_area.request_interact()
 
 func open_menu(current_visibility: bool):
 	menu.visible = !current_visibility
@@ -134,8 +144,10 @@ func _physics_process(delta: float) -> void:
 	handle_animation(direction)
 	move_and_slide()
 
+var one_shots: Array[String] = ["Sword_Attack", "PickUp_Table"]
+
 func handle_animation(direction: Vector3):
-	if animation_player.current_animation == "Sword_Attack":
+	if animation_player.current_animation in one_shots:
 		return
 
 	if velocity.y == 0.0:
@@ -146,20 +158,29 @@ func handle_animation(direction: Vector3):
 	else:
 		animation_player.play("Jump")
 
-
-var can_shoot := true
-
 func shoot():
 	var force = 100
 	var pos = global_position
 	var shoot_dir = get_shoot_direction()
 	Global.shoot_ball.rpc_id(1, pos, shoot_dir, force)
+	
+func get_shoot_direction():
+	var viewport_rect = get_viewport().get_visible_rect().size
+	var raycast_start = camera_3d.project_ray_origin(viewport_rect / 2)
+	var raycast_end = raycast_start + camera_3d.project_ray_normal(viewport_rect / 2) * 200
+	return -(raycast_start - raycast_end).normalized()
 
-var can_attack := true
+@rpc("any_peer", 'call_local')
+func register_hit(is_dead = false):
+	if is_dead:
+		sound_ping.play()
+	else:
+		sound_hit.play()
+	
+	hit_marker.show()
+	await get_tree().create_timer(0.2).timeout
+	hit_marker.hide()
 
-@onready var hurt_box: HurtBox = %HurtBox
-
-# TODO: Combine
 func attack(version: int):
 	if can_attack:
 		if version == 1:
@@ -177,29 +198,19 @@ func attack(version: int):
 		sensitivity = DEFAULT_SENS
 		can_attack = true
 
-func hold():
-	if can_attack == false:
+func update_is_holding(is_holding):
+	if is_holding == false:
+		animation_player.play('PickUp_Table')
 		sword_animation_player.play("arm_model_animations/idle")
 		await get_tree().create_timer(0.3).timeout
 		can_attack = true
-	else:
+	elif is_holding == true:
 		can_attack = false
 		sword_animation_player.play("arm_model_animations/hold")
-	
+		animation_player.play('PickUp_Table')
 
-func get_shoot_direction():
-	var viewport_rect = get_viewport().get_visible_rect().size
-	var raycast_start = camera_3d.project_ray_origin(viewport_rect / 2)
-	var raycast_end = raycast_start + camera_3d.project_ray_normal(viewport_rect / 2) * 200
-	return -(raycast_start - raycast_end).normalized()
-
-@rpc("any_peer", 'call_local')
-func register_hit(is_dead = false):
-	if is_dead:
-		sound_ping.play()
+func update_interact_text(display_string = ""):
+	if display_string != "":
+		label_interact.text = display_string + " (E)"
 	else:
-		sound_hit.play()
-	
-	hit_marker.show()
-	await get_tree().create_timer(0.2).timeout
-	hit_marker.hide()
+		label_interact.text = ""

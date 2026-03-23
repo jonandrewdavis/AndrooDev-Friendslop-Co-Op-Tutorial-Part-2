@@ -13,6 +13,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_npwbq"]
+size = Vector3(0.5, 0.5, 2.5)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_pn6s4"]
 size = Vector3(0.5, 3, 0.5)
 
@@ -29,6 +32,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Head/AnimationLibrary_Godot_Standard/AnimationPlayer:current_animation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("Head/Camera3D:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfjak"]
 bg_color = Color(1, 1, 1, 1)
@@ -36,9 +42,6 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_npwbq"]
-size = Vector3(1, 1, 2.5)
 
 [node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("sword_animation_player")]
 collision_layer = 9
@@ -68,12 +71,20 @@ transform = Transform3D(-0.15130241, -3.7252903e-09, 0.5806096, 0.57750064, 0.06
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
+[node name="InteractArea" type="Area3D" parent="Head/Camera3D" unique_id=719165007]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.25)
+script = ExtResource("8_v42im")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera3D/InteractArea" unique_id=74595373]
+shape = SubResource("BoxShape3D_npwbq")
+
 [node name="ArmsRoot" parent="Head/Camera3D" unique_id=182167908 instance=ExtResource("4_pn6s4")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
 [node name="Weapon" parent="Head/Camera3D/ArmsRoot" index="2" unique_id=204858693]
-transform = Transform3D(0.48758504, 0.02598531, -0.8726882, 0.8656598, 0.11561026, 0.4871004, 0.11354918, -0.9929546, 0.033875395, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.48758504, 0.025985302, -0.872688, 0.8656598, 0.11561022, 0.48710027, 0.11354918, -0.9929543, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
 
 [node name="HurtBox" type="Area3D" parent="Head/Camera3D/ArmsRoot/Weapon" index="0" unique_id=98691318]
 unique_name_in_owner = true
@@ -192,6 +203,26 @@ horizontal_alignment = 1
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUi" unique_id=1581575230]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 100
+
+[node name="LabelInteract" type="Label" parent="PlayerUi/MarginContainer" unique_id=745484724]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="SoundHit" type="AudioStreamPlayer" parent="." unique_id=625036051]
 unique_name_in_owner = true
 stream = ExtResource("3_524rm")
@@ -199,15 +230,6 @@ stream = ExtResource("3_524rm")
 [node name="SoundPing" type="AudioStreamPlayer" parent="." unique_id=1437128364]
 unique_name_in_owner = true
 stream = ExtResource("4_tpg5x")
-
-[node name="Area3D" type="Area3D" parent="." unique_id=719165007]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
-script = ExtResource("8_v42im")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=74595373]
-shape = SubResource("BoxShape3D_npwbq")
-
-[node name="Node3D" type="Node3D" parent="." unique_id=1543912053]
 
 [editable path="Head/AnimationLibrary_Godot_Standard"]
 [editable path="Head/Camera3D/ArmsRoot"]
