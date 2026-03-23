@@ -84,6 +84,9 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.4,
 
 [node name="arm_model" parent="Right" unique_id=708149612 instance=ExtResource("1_on766")]
 
+[node name="Cube" parent="Right/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(708149612, 132565555) index="0" unique_id=1467665068]
+cast_shadow = 0
+
 [node name="TwoBoneIK3D" type="TwoBoneIK3D" parent="Right/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(708149612, 132565555) index="1" unique_id=377235613]
 setting_count = 1
 settings/0/target_node = NodePath("../../../../../Weapon/TargetRight")
@@ -108,6 +111,9 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.5
 
 [node name="arm_model" parent="Left" unique_id=1008876656 instance=ExtResource("1_on766")]
 
+[node name="Cube" parent="Left/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1008876656, 132565555) index="0" unique_id=1467665068]
+cast_shadow = 0
+
 [node name="TwoBoneIK3D" type="TwoBoneIK3D" parent="Left/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1008876656, 132565555) index="1" unique_id=567516490]
 setting_count = 1
 settings/0/target_node = NodePath("../../../../../Weapon/TargetLeft")
@@ -128,9 +134,12 @@ settings/0/end_bone/length = 0.1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07560158, -0.12454414, -0.4190972)
 
 [node name="Weapon" type="Node3D" parent="." unique_id=204858693]
-transform = Transform3D(0.48758513, 0.025985308, -0.8726884, 0.8656599, 0.11561025, 0.48710054, 0.1135492, -0.99295455, 0.033875402, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.48758513, 0.025985308, -0.8726884, 0.8656599, 0.11561024, 0.4871005, 0.1135492, -0.9929545, 0.033875402, 0.044629604, -0.2631794, -0.75293124)
 
 [node name="Root Scene" parent="Weapon" unique_id=509453031 instance=ExtResource("2_q46v1")]
+
+[node name="Sword" parent="Weapon/Root Scene/RootNode" parent_id_path=PackedInt32Array(509453031, 1345353383) index="0" unique_id=580392845]
+cast_shadow = 0
 
 [node name="TargetRight" type="Marker3D" parent="Weapon" unique_id=703581312]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02900558, 0.058719054, -0.021234872)
@@ -147,3 +156,4 @@ speed_scale = 0.8
 
 [editable path="Right/arm_model"]
 [editable path="Left/arm_model"]
+[editable path="Weapon/Root Scene"]

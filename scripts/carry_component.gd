@@ -2,15 +2,18 @@ extends Node3D
 class_name CarryComponent
 
 # TODO: Calculate offset from Collision Shape?
-@export var OFFSET_FORWARD := 2.2
+@export var OFFSET_FORWARD := 1.2
 @export var throw_enabled := true
 @export var carry_break_dist := 4.5
 
 @onready var parent_body: RigidBody3D = get_parent()
 
-func _ready():
-	pass
-		
+#func _ready():
+	#if not is_multiplayer_authority():
+		#parent_body.set_physics_process_internal(false)
+		#parent_body.set_process(false)
+		#parent_body.set_physics_process(false)
+
 func throw(impulse):
 	# TODO: Determine if we want to preserve some momentum
 	parent_body.set_angular_velocity(Vector3(0.0, 0.0, 0.0)) # Remove all velocity before throw

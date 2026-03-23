@@ -198,17 +198,22 @@ func attack(version: int):
 		sensitivity = DEFAULT_SENS
 		can_attack = true
 
+
+
 func update_is_holding(is_holding):
 	if is_holding == false:
-		animation_player.play('PickUp_Table')
 		sword_animation_player.play("arm_model_animations/idle")
 		await get_tree().create_timer(0.3).timeout
 		can_attack = true
 	elif is_holding == true:
 		can_attack = false
 		sword_animation_player.play("arm_model_animations/hold")
-		animation_player.play('PickUp_Table')
-
+	
+	# Always play
+	animation_player.play('PickUp_Table')
+	await animation_player.animation_finished
+	animation_player.play('Idle')
+		
 func update_interact_text(display_string = ""):
 	if display_string != "":
 		label_interact.text = display_string + " (E)"

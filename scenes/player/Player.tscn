@@ -59,8 +59,62 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D" parent_id_path=PackedInt32Array(1312872203, 798086680) index="1" unique_id=228616765]
-transform = Transform3D(-7.2636986e-08, -0.99999994, 4.4889748e-07, 0.99999976, -1.15754546e-07, 1.0274593e-06, -9.94439e-07, 4.3585896e-07, 1, -0.73889995, 1.4407998, -0.065399975)
+[node name="Skeleton3D" parent="Head/AnimationLibrary_Godot_Standard/Rig" parent_id_path=PackedInt32Array(1312872203, 1992466410) index="0" unique_id=798086680]
+bones/1/position = Vector3(0.005320986, 0.086511455, 0.87717515)
+bones/1/rotation = Quaternion(0.7560141, -0.08830484, -0.07524367, 0.644192)
+bones/3/rotation = Quaternion(-0.026579034, 0.00011675962, 0.00012322447, 0.9996468)
+bones/4/rotation = Quaternion(0.15147045, 0.00031940095, 0.00039442265, 0.98846173)
+bones/5/rotation = Quaternion(0.009665415, -0.00024126646, -0.00023827745, 0.99995327)
+bones/6/rotation = Quaternion(-0.009406529, 0.095981956, -0.0035993243, 0.9953322)
+bones/7/rotation = Quaternion(-0.59950304, -0.37345973, -0.3942047, 0.5879853)
+bones/8/rotation = Quaternion(-0.286494, 0.67352486, -0.49582532, 0.4673787)
+bones/9/rotation = Quaternion(0.28070766, 0.04288137, -0.00490855, 0.9588224)
+bones/10/rotation = Quaternion(0.10600874, 0.0063756965, -0.025674293, 0.9940133)
+bones/11/rotation = Quaternion(0.44519052, 0.549369, -0.44519407, 0.54936457)
+bones/12/rotation = Quaternion(0.6233418, -5.5372038e-08, 1.2968414e-07, 0.7819495)
+bones/13/rotation = Quaternion(0.6233415, -1.5245129e-07, -2.62027e-08, 0.78194976)
+bones/14/rotation = Quaternion(0.43208992, 0.5386998, -0.45804626, 0.559727)
+bones/15/rotation = Quaternion(0.62334085, 0.00094326015, 0.0011836431, 0.7819488)
+bones/16/rotation = Quaternion(0.62334126, -0.000704383, -0.00088339415, 0.78194916)
+bones/17/rotation = Quaternion(0.50405705, 0.51154155, -0.43515158, 0.5430423)
+bones/18/rotation = Quaternion(0.623163, -0.020061297, 0.014925474, 0.78169227)
+bones/19/rotation = Quaternion(0.6233416, 0.00037987795, 0.00047665276, 0.78194946)
+bones/20/rotation = Quaternion(0.43533945, 0.54135615, -0.45490405, 0.55720323)
+bones/21/rotation = Quaternion(0.62334156, 7.748852e-06, 9.604266e-06, 0.7819497)
+bones/22/rotation = Quaternion(0.62334144, -0.0006651215, -0.0008344015, 0.78194916)
+bones/23/rotation = Quaternion(0.2908386, 0.94964904, 0.114583716, 0.021216959)
+bones/24/rotation = Quaternion(0.21939044, 0.023802524, -0.005305184, 0.9753324)
+bones/25/rotation = Quaternion(0.68738794, -0.00030905192, -0.0004445569, 0.72629035)
+bones/26/rotation = Quaternion(-0.6356149, 0.31049013, 0.3295918, 0.625267)
+bones/27/rotation = Quaternion(-0.29415217, -0.6806679, 0.46930596, 0.47949734)
+bones/28/rotation = Quaternion(0.3672642, -0.15366054, 0.061658856, 0.91526157)
+bones/29/rotation = Quaternion(0.116709076, 0.0029167265, 0.04477861, 0.9921519)
+bones/30/rotation = Quaternion(0.44519088, -0.5493687, 0.44519415, 0.5493645)
+bones/31/rotation = Quaternion(0.62334156, 3.6044102e-07, -1.605758e-07, 0.7819497)
+bones/32/rotation = Quaternion(0.62334144, 3.2991406e-07, -8.0989764e-08, 0.78194976)
+bones/33/rotation = Quaternion(0.43209, -0.53869975, 0.45804653, 0.5597269)
+bones/34/rotation = Quaternion(0.62334096, -0.00094347855, -0.0011835358, 0.78194875)
+bones/35/rotation = Quaternion(0.62334126, 0.00070427946, 0.0008833059, 0.7819492)
+bones/36/rotation = Quaternion(0.50405675, -0.5115416, 0.43515164, 0.5430424)
+bones/37/rotation = Quaternion(0.62316316, 0.020061128, -0.014925428, 0.7816921)
+bones/38/rotation = Quaternion(0.6233416, -0.00037992498, -0.00047673454, 0.78194946)
+bones/39/rotation = Quaternion(0.43534, -0.54135597, 0.45490402, 0.55720305)
+bones/40/rotation = Quaternion(0.62334144, -7.2362072e-06, -9.510368e-06, 0.78194976)
+bones/41/rotation = Quaternion(0.6233413, 0.0006652689, 0.00083434593, 0.7819493)
+bones/42/rotation = Quaternion(-0.29083842, 0.94964916, 0.1145837, -0.021217061)
+bones/43/rotation = Quaternion(0.21939029, -0.023802644, 0.0053049326, 0.9753323)
+bones/44/rotation = Quaternion(0.68738824, 0.00030917555, 0.00044448613, 0.72629005)
+bones/45/rotation = Quaternion(0.96386224, 0.11039476, -0.013611361, 0.242069)
+bones/46/rotation = Quaternion(0.18490537, -0.11210053, 0.021225441, 0.97611123)
+bones/47/rotation = Quaternion(-0.49535277, 0.022368355, 0.09231355, 0.86348337)
+bones/48/rotation = Quaternion(-0.000137164, 0.9643068, -0.26478708, -0.0004994296)
+bones/49/rotation = Quaternion(0.9932542, -0.114495106, 0.014116948, 0.011735573)
+bones/50/rotation = Quaternion(0.114753954, 0.35840163, -0.044452835, 0.92542094)
+bones/51/rotation = Quaternion(-0.57775325, -0.04967244, -0.16395368, 0.79803085)
+bones/52/rotation = Quaternion(-0.00013718085, 0.9643068, -0.26478708, -0.0004994104)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D" index="1" unique_id=228616765]
+transform = Transform3D(-0.9862841, -0.14708368, 0.07490374, 0.16505492, -0.876041, 0.45310974, -0.0010262253, 0.4592583, 0.8883021, -0.28709564, 0.92530394, -0.2125364)
 bone_name = "DEF-hand.R"
 bone_idx = 29
 
@@ -84,7 +138,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
 [node name="Weapon" parent="Head/Camera3D/ArmsRoot" index="2" unique_id=204858693]
-transform = Transform3D(0.48758504, 0.025985302, -0.872688, 0.8656598, 0.11561022, 0.48710027, 0.11354918, -0.9929543, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.48758504, 0.025985299, -0.872688, 0.8656598, 0.11561021, 0.48710027, 0.11354918, -0.9929542, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
 
 [node name="HurtBox" type="Area3D" parent="Head/Camera3D/ArmsRoot/Weapon" index="0" unique_id=98691318]
 unique_name_in_owner = true
@@ -235,3 +289,4 @@ stream = ExtResource("4_tpg5x")
 [editable path="Head/Camera3D/ArmsRoot"]
 [editable path="Head/Camera3D/ArmsRoot/Right/arm_model"]
 [editable path="Head/Camera3D/ArmsRoot/Left/arm_model"]
+[editable path="Head/Camera3D/ArmsRoot/Weapon/Root Scene"]

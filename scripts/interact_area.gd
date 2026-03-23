@@ -12,10 +12,13 @@ func _ready() -> void:
 	body_entered.connect(on_body_entered)
 	body_exited.connect(on_body_exited)
 
+	set_collision_layer_value(1, false)
+	set_collision_mask_value(1, false)
+	set_collision_mask_value(5, true)
+
 func on_body_entered(body: Node3D):
 	if body is InteractComponent:
 		signal_display_text.emit(body.display_string)
-		print("It's a body")
 		# signal interact
 		
 func on_body_exited(_body: Node3D):
@@ -55,8 +58,9 @@ func request_interact_secondary():
 			return
 
 ## Called from the server to the player who requested an activation
-@rpc("any_peer", "call_local", 'reliable')
+@rpc("any_peer", "call_local", "reliable")
 func set_current_interactable(path):
+	#print('Getting lots of sets from', multiplayer.get_remote_sender_id())
 	if path: 
 		current_interactable = get_node(path)
 		signal_is_holding.emit(true)
