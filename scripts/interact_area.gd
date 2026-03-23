@@ -43,6 +43,7 @@ func request_interact():
 	for body in get_overlapping_bodies():
 		if body is InteractComponent:
 			# TODO: Get information about the type of interact we're about to do!
+			# Query the inputs
 			body.interact.rpc_id(1)
 			return
 

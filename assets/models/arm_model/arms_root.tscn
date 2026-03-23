@@ -3,6 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://ct3niy3bnyn7u" path="res://assets/models/arm_model/arm_model.glb" id="1_on766"]
 [ext_resource type="PackedScene" uid="uid://ckmx5487j45kh" path="res://assets/models/sword/Sword.glb" id="2_q46v1"]
 [ext_resource type="AnimationLibrary" uid="uid://cj3elpkn0e5kq" path="res://assets/models/arm_model/arm_model_animations.res" id="3_4udp2"]
+[ext_resource type="Script" uid="uid://dt02ejsxvh0n7" path="res://scripts/hurt_box.gd" id="3_q46v1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4udp2"]
+size = Vector3(0.5, 3, 0.5)
 
 [sub_resource type="Animation" id="Animation_7oing"]
 length = 0.001
@@ -41,6 +45,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Weapon/HurtBox:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_on766"]
@@ -134,7 +150,7 @@ settings/0/end_bone/length = 0.1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07560158, -0.12454414, -0.4190972)
 
 [node name="Weapon" type="Node3D" parent="." unique_id=204858693]
-transform = Transform3D(0.48758513, 0.025985308, -0.8726884, 0.8656599, 0.11561024, 0.4871005, 0.1135492, -0.9929545, 0.033875402, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.48758513, 0.025985304, -0.8726884, 0.8656599, 0.11561023, 0.4871005, 0.1135492, -0.9929544, 0.033875402, 0.044629604, -0.2631794, -0.75293124)
 
 [node name="Root Scene" parent="Weapon" unique_id=509453031 instance=ExtResource("2_q46v1")]
 
@@ -146,6 +162,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02900558, 0.058719054, -0.
 
 [node name="TargetLeft" type="Marker3D" parent="Weapon" unique_id=1751158588]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008147523, -0.036761124, -0.015787603)
+
+[node name="HurtBox" type="Area3D" parent="Weapon" unique_id=443176886]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+monitoring = false
+script = ExtResource("3_q46v1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Weapon/HurtBox" unique_id=448741298]
+transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 0, 0, 0)
+shape = SubResource("BoxShape3D_4udp2")
 
 [node name="SwordAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1984194980]
 unique_name_in_owner = true

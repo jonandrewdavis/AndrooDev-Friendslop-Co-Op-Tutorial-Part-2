@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://c4vx641ipq5b4"]
+
+[ext_resource type="Script" uid="uid://sm7pcuw70ppu" path="res://scenes/player/player_ui.gd" id="1_fatww"]
+[ext_resource type="PackedScene" uid="uid://lm4alclh6bt3" path="res://scenes/player/controls.tscn" id="1_m6sn8"]
+[ext_resource type="Texture2D" uid="uid://pxj3b3e28fg3" path="res://addons/tube/inspector/icons/clipboard_icon.tres" id="2_fatww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfjak"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PlayerUi" type="CanvasLayer" unique_id=1414890553]
+script = ExtResource("1_fatww")
+
+[node name="Controls" parent="." unique_id=1906408976 instance=ExtResource("1_m6sn8")]
+unique_name_in_owner = true
+offset_right = 127.0
+offset_bottom = 64.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Menu" type="Control" parent="." unique_id=773912642]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Menu" unique_id=1088530125]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/PanelContainer" unique_id=2087535733]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/PanelContainer/MarginContainer" unique_id=1109437460]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=889573396]
+layout_mode = 2
+
+[node name="LabelSession" type="Label" parent="Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2034686822]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonCopySession" type="Button" parent="Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2147199871]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+icon = ExtResource("2_fatww")
+
+[node name="ButtonLeave" type="Button" parent="Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=1902140169]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Leave Game"
+
+[node name="Reticle" type="Panel" parent="." unique_id=1701818851]
+custom_minimum_size = Vector2(5, 5)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -2.5
+offset_right = 2.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gfjak")
+
+[node name="HitMarker" type="Label" parent="." unique_id=571121747]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1)
+pivot_offset_ratio = Vector2(0.5, 0)
+text = "X"
+horizontal_alignment = 1
+
+[node name="TopLeft" type="MarginContainer" parent="." unique_id=1545365669]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1780205857]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 100
+
+[node name="LabelInteract" type="Label" parent="MarginContainer" unique_id=1392000688]
+unique_name_in_owner = true
+layout_mode = 2

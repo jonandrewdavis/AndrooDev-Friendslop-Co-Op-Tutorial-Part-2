@@ -44,7 +44,6 @@ func take_damage(damage: int, source: int):
 		await animation_player.animation_finished
 		is_damaged = false
 
-
 func death():
 	set_collision_layer_value(1, false)
 	is_dying = true

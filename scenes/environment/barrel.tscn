@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dcnuxmbq8e3gv"]
 
 [ext_resource type="Texture2D" uid="uid://cbdyinv6pi8lg" path="res://assets/kenney_prototype-textures/PNG/Red/texture_12.png" id="1_aj01g"]
-[ext_resource type="Script" uid="uid://cdlc4fxek7vye" path="res://scenes/environment/barrel.gd" id="1_dgqd5"]
 [ext_resource type="Script" uid="uid://c62tle5bgx30p" path="res://scripts/carry_component.gd" id="2_feix5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_nomau"]
@@ -28,15 +27,11 @@ properties/3/path = NodePath("..:tracked_angular")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="Barrel" type="RigidBody3D" unique_id=2030434800 node_paths=PackedStringArray("carry_component", "label")]
-freeze_mode = 1
-script = ExtResource("1_dgqd5")
-carry_component = NodePath("CarryComponent")
+[node name="Barrel" type="RigidBody3D" unique_id=2030434800 node_paths=PackedStringArray("label")]
+mass = 100.0
+script = ExtResource("2_feix5")
 display_string = "Barrel"
 label = NodePath("Label3D")
-
-[node name="CarryComponent" type="Node3D" parent="." unique_id=1790355887]
-script = ExtResource("2_feix5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353955382]
 shape = SubResource("CylinderShape3D_nomau")

@@ -11,26 +11,17 @@ const JUMP_VELOCITY = 4.5
 @onready var camera_3d: Camera3D = %Camera3D
 @onready var head: Node3D = %Head
 @onready var nameplate: Label3D = %Nameplate
+@onready var player_ui: PlayerUI = %PlayerUi
 
-@onready var menu: Control = %Menu
-@onready var button_leave: Button = %ButtonLeave
-@onready var label_session: Label = %LabelSession
-@onready var button_copy_session: Button = %ButtonCopySession
-@onready var controls: VBoxContainer = %Controls
-@onready var hit_marker: Label = %HitMarker
-@onready var player_ui: CanvasLayer = %PlayerUi
-@onready var label_interact: Label = %LabelInteract
-
-@onready var sound_hit: AudioStreamPlayer = %SoundHit
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
+@onready var sound_hit: AudioStreamPlayer = %SoundHit
 
 @onready var animation_library_godot_standard: Node3D = %AnimationLibrary_Godot_Standard
 @onready var animation_player: AnimationPlayer = $Head/AnimationLibrary_Godot_Standard/AnimationPlayer
 
-
 @onready var arms_root: Node3D = %ArmsRoot
 @export var sword_animation_player: AnimationPlayer
-@onready var hurt_box: HurtBox = %HurtBox
+@export var sword_hurt_box: HurtBox
 @onready var interact_area: InteractArea = %InteractArea
 @export var tracked_velocity: Vector3
 
@@ -42,7 +33,6 @@ func _enter_tree() -> void:
 
 func _ready():
 	add_to_group("Players")
-	player_ui.hide()	
 	nameplate.text = name
 	animation_player.playback_default_blend_time = 0.2
 	sword_animation_player.playback_default_blend_time = 0.2
@@ -55,7 +45,6 @@ func _ready():
 		return
 	
 	ready_client_visuals()
-	ready_client_menu()
 
 func ready_client_visuals():
 	arms_root.show()
@@ -64,17 +53,6 @@ func ready_client_visuals():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if Global.username: 
 		nameplate.text = Global.username
-
-func ready_client_menu():
-	player_ui.show()
-	menu.hide()
-	hit_marker.hide()
-	label_session.text = Network.tube_client.session_id
-	button_leave.pressed.connect(func(): Network.leave_server())
-	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
-	DisplayServer.clipboard_set(Network.tube_client.session_id)
-	interact_area.signal_display_text.connect(update_interact_text)
-	interact_area.signal_is_holding.connect(update_is_holding)
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:
@@ -89,7 +67,7 @@ func _process(_delta: float) -> void:
 	tracked_velocity = velocity
 
 	if Input.is_action_just_pressed('menu'):
-		open_menu(menu.visible)
+		open_menu(player_ui.menu.visible)
 		
 	if immobile:
 		return
@@ -106,13 +84,16 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed('interact'):
 		interact_area.request_interact()
 
-func open_menu(current_visibility: bool):
-	menu.visible = !current_visibility
-	
-	immobile = menu.visible
-	controls.visible = !menu.visible
+	if Input.is_action_just_pressed('interact_secondary'):
+		interact_area.request_interact_secondary()
 
-	if menu.visible:
+func open_menu(current_visibility: bool):
+	player_ui.menu.visible = !current_visibility
+	
+	immobile = player_ui.menu.visible
+	player_ui.controls.visible = !player_ui.menu.visible
+
+	if player_ui.menu.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -177,28 +158,27 @@ func register_hit(is_dead = false):
 	else:
 		sound_hit.play()
 	
-	hit_marker.show()
+	player_ui.hit_marker.show()
 	await get_tree().create_timer(0.2).timeout
-	hit_marker.hide()
+	player_ui.hit_marker.hide()
 
 func attack(version: int):
-	if can_attack:
-		if version == 1:
-			hurt_box.current_damage = 25
-		elif version == 2:
-			hurt_box.current_damage = 50
+	if sword_animation_player.current_animation.begins_with("arm_model_animations/swing_0"):
+		return 
+		
+	if version == 1:
+		sword_hurt_box.current_damage = 25
+	elif version == 2:
+		sword_hurt_box.current_damage = 50
 
-		sensitivity = sensitivity * 0.25
-		hurt_box.bodies_hit.clear()
-		can_attack = false
-		animation_player.play("Sword_Attack")
-		sword_animation_player.play("arm_model_animations/swing_0" + str(version))
-		await sword_animation_player.animation_finished
-		sword_animation_player.play("arm_model_animations/idle")
-		sensitivity = DEFAULT_SENS
-		can_attack = true
-
-
+	sensitivity = sensitivity * 0.25
+	sword_hurt_box.bodies_hit.clear()
+	animation_player.stop()
+	animation_player.play("Sword_Attack")
+	sword_animation_player.play("arm_model_animations/swing_0" + str(version))
+	await sword_animation_player.animation_finished
+	sword_animation_player.play("arm_model_animations/idle")
+	sensitivity = DEFAULT_SENS
 
 func update_is_holding(is_holding):
 	if is_holding == false:
@@ -216,6 +196,6 @@ func update_is_holding(is_holding):
 		
 func update_interact_text(display_string = ""):
 	if display_string != "":
-		label_interact.text = display_string + " (E)"
+		player_ui.label_interact.text = display_string + " (E)"
 	else:
-		label_interact.text = ""
+		player_ui.label_interact.text = ""

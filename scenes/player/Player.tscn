@@ -1,23 +1,18 @@
 [gd_scene format=3 uid="uid://dbcqeo103wau6"]
 
 [ext_resource type="Script" uid="uid://bqta7emfadpxj" path="res://scenes/player/player.gd" id="1_wr5hl"]
-[ext_resource type="Texture2D" uid="uid://pxj3b3e28fg3" path="res://addons/tube/inspector/icons/clipboard_icon.tres" id="2_gfjak"]
 [ext_resource type="PackedScene" uid="uid://3twuvdlmdi7j" path="res://assets/animations/AnimationLibrary_Godot_Standard.glb" id="2_npwbq"]
-[ext_resource type="AudioStream" uid="uid://cdov6nnydfvny" path="res://assets/sound/click.mp3" id="3_524rm"]
 [ext_resource type="PackedScene" uid="uid://ckmx5487j45kh" path="res://assets/models/sword/Sword.glb" id="4_7oing"]
 [ext_resource type="PackedScene" uid="uid://pfvhfh5nxuc1" path="res://assets/models/arm_model/arms_root.tscn" id="4_pn6s4"]
-[ext_resource type="AudioStream" uid="uid://d0xrt28ytpro" path="res://assets/sound/ping.mp3" id="4_tpg5x"]
-[ext_resource type="Script" uid="uid://dt02ejsxvh0n7" path="res://scripts/hurt_box.gd" id="5_7oing"]
-[ext_resource type="PackedScene" uid="uid://lm4alclh6bt3" path="res://scenes/player/controls.tscn" id="5_tpg5x"]
+[ext_resource type="PackedScene" uid="uid://c4vx641ipq5b4" path="res://scenes/player/player_ui.tscn" id="6_v42im"]
+[ext_resource type="AudioStream" uid="uid://cdov6nnydfvny" path="res://assets/sound/click.mp3" id="7_v42im"]
+[ext_resource type="AudioStream" uid="uid://d0xrt28ytpro" path="res://assets/sound/ping.mp3" id="8_pn6s4"]
 [ext_resource type="Script" uid="uid://c581124y1tke8" path="res://scripts/interact_area.gd" id="8_v42im"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_npwbq"]
 size = Vector3(0.5, 0.5, 2.5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_pn6s4"]
-size = Vector3(0.5, 3, 0.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wr5hl"]
 properties/0/path = NodePath(".:position")
@@ -36,17 +31,11 @@ properties/4/path = NodePath("Head/Camera3D:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfjak"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("sword_animation_player")]
+[node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("sword_animation_player", "sword_hurt_box")]
 collision_layer = 9
 script = ExtResource("1_wr5hl")
 sword_animation_player = NodePath("Head/Camera3D/ArmsRoot/SwordAnimationPlayer")
+sword_hurt_box = NodePath("Head/Camera3D/ArmsRoot/Weapon/HurtBox")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789704607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -60,61 +49,61 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Head/AnimationLibrary_Godot_Standard/Rig" parent_id_path=PackedInt32Array(1312872203, 1992466410) index="0" unique_id=798086680]
-bones/1/position = Vector3(0.005320986, 0.086511455, 0.87717515)
-bones/1/rotation = Quaternion(0.7560141, -0.08830484, -0.07524367, 0.644192)
-bones/3/rotation = Quaternion(-0.026579034, 0.00011675962, 0.00012322447, 0.9996468)
-bones/4/rotation = Quaternion(0.15147045, 0.00031940095, 0.00039442265, 0.98846173)
-bones/5/rotation = Quaternion(0.009665415, -0.00024126646, -0.00023827745, 0.99995327)
-bones/6/rotation = Quaternion(-0.009406529, 0.095981956, -0.0035993243, 0.9953322)
-bones/7/rotation = Quaternion(-0.59950304, -0.37345973, -0.3942047, 0.5879853)
-bones/8/rotation = Quaternion(-0.286494, 0.67352486, -0.49582532, 0.4673787)
-bones/9/rotation = Quaternion(0.28070766, 0.04288137, -0.00490855, 0.9588224)
-bones/10/rotation = Quaternion(0.10600874, 0.0063756965, -0.025674293, 0.9940133)
-bones/11/rotation = Quaternion(0.44519052, 0.549369, -0.44519407, 0.54936457)
-bones/12/rotation = Quaternion(0.6233418, -5.5372038e-08, 1.2968414e-07, 0.7819495)
-bones/13/rotation = Quaternion(0.6233415, -1.5245129e-07, -2.62027e-08, 0.78194976)
-bones/14/rotation = Quaternion(0.43208992, 0.5386998, -0.45804626, 0.559727)
-bones/15/rotation = Quaternion(0.62334085, 0.00094326015, 0.0011836431, 0.7819488)
-bones/16/rotation = Quaternion(0.62334126, -0.000704383, -0.00088339415, 0.78194916)
-bones/17/rotation = Quaternion(0.50405705, 0.51154155, -0.43515158, 0.5430423)
-bones/18/rotation = Quaternion(0.623163, -0.020061297, 0.014925474, 0.78169227)
-bones/19/rotation = Quaternion(0.6233416, 0.00037987795, 0.00047665276, 0.78194946)
-bones/20/rotation = Quaternion(0.43533945, 0.54135615, -0.45490405, 0.55720323)
-bones/21/rotation = Quaternion(0.62334156, 7.748852e-06, 9.604266e-06, 0.7819497)
-bones/22/rotation = Quaternion(0.62334144, -0.0006651215, -0.0008344015, 0.78194916)
-bones/23/rotation = Quaternion(0.2908386, 0.94964904, 0.114583716, 0.021216959)
-bones/24/rotation = Quaternion(0.21939044, 0.023802524, -0.005305184, 0.9753324)
-bones/25/rotation = Quaternion(0.68738794, -0.00030905192, -0.0004445569, 0.72629035)
-bones/26/rotation = Quaternion(-0.6356149, 0.31049013, 0.3295918, 0.625267)
-bones/27/rotation = Quaternion(-0.29415217, -0.6806679, 0.46930596, 0.47949734)
-bones/28/rotation = Quaternion(0.3672642, -0.15366054, 0.061658856, 0.91526157)
-bones/29/rotation = Quaternion(0.116709076, 0.0029167265, 0.04477861, 0.9921519)
-bones/30/rotation = Quaternion(0.44519088, -0.5493687, 0.44519415, 0.5493645)
-bones/31/rotation = Quaternion(0.62334156, 3.6044102e-07, -1.605758e-07, 0.7819497)
-bones/32/rotation = Quaternion(0.62334144, 3.2991406e-07, -8.0989764e-08, 0.78194976)
-bones/33/rotation = Quaternion(0.43209, -0.53869975, 0.45804653, 0.5597269)
-bones/34/rotation = Quaternion(0.62334096, -0.00094347855, -0.0011835358, 0.78194875)
-bones/35/rotation = Quaternion(0.62334126, 0.00070427946, 0.0008833059, 0.7819492)
-bones/36/rotation = Quaternion(0.50405675, -0.5115416, 0.43515164, 0.5430424)
-bones/37/rotation = Quaternion(0.62316316, 0.020061128, -0.014925428, 0.7816921)
-bones/38/rotation = Quaternion(0.6233416, -0.00037992498, -0.00047673454, 0.78194946)
-bones/39/rotation = Quaternion(0.43534, -0.54135597, 0.45490402, 0.55720305)
-bones/40/rotation = Quaternion(0.62334144, -7.2362072e-06, -9.510368e-06, 0.78194976)
-bones/41/rotation = Quaternion(0.6233413, 0.0006652689, 0.00083434593, 0.7819493)
-bones/42/rotation = Quaternion(-0.29083842, 0.94964916, 0.1145837, -0.021217061)
-bones/43/rotation = Quaternion(0.21939029, -0.023802644, 0.0053049326, 0.9753323)
-bones/44/rotation = Quaternion(0.68738824, 0.00030917555, 0.00044448613, 0.72629005)
-bones/45/rotation = Quaternion(0.96386224, 0.11039476, -0.013611361, 0.242069)
-bones/46/rotation = Quaternion(0.18490537, -0.11210053, 0.021225441, 0.97611123)
-bones/47/rotation = Quaternion(-0.49535277, 0.022368355, 0.09231355, 0.86348337)
-bones/48/rotation = Quaternion(-0.000137164, 0.9643068, -0.26478708, -0.0004994296)
-bones/49/rotation = Quaternion(0.9932542, -0.114495106, 0.014116948, 0.011735573)
-bones/50/rotation = Quaternion(0.114753954, 0.35840163, -0.044452835, 0.92542094)
-bones/51/rotation = Quaternion(-0.57775325, -0.04967244, -0.16395368, 0.79803085)
-bones/52/rotation = Quaternion(-0.00013718085, 0.9643068, -0.26478708, -0.0004994104)
+bones/1/position = Vector3(0, 0.050100047, 0.9167)
+bones/1/rotation = Quaternion(0.7904686, 0, 0, 0.6125026)
+bones/3/rotation = Quaternion(-0.077279985, 0, 0, 0.99700946)
+bones/4/rotation = Quaternion(-0.0002686372, 0, 0, 1)
+bones/5/rotation = Quaternion(0.11098593, 0, 0, 0.993822)
+bones/6/rotation = Quaternion(-0.078673996, 0, 0, 0.9969005)
+bones/7/rotation = Quaternion(-0.60402054, -0.34510297, -0.3567177, 0.6235509)
+bones/8/rotation = Quaternion(0.1802697, 0.68385, -0.17983648, 0.6837477)
+bones/9/rotation = Quaternion(0.017182201, -2.0463322e-05, 4.431598e-07, 0.9998525)
+bones/10/rotation = Quaternion(-0.008619739, 2.055205e-09, 2.3840977e-07, 0.99996287)
+bones/11/rotation = Quaternion(2.3742773e-07, 0.70710933, -2.374259e-07, 0.7071042)
+bones/12/rotation = Quaternion(-5.5511585e-16, -1.1920952e-07, 5.551649e-17, 1)
+bones/13/rotation = Quaternion(-5.1814594e-21, 9.76541e-34, -1.3279154e-16, 1)
+bones/14/rotation = Quaternion(-0.016702166, 0.7069121, -0.016702764, 0.7069069)
+bones/15/rotation = Quaternion(-1.18311165e-08, -1.1920758e-07, 0.0015135984, 0.99999887)
+bones/16/rotation = Quaternion(7.981394e-09, -1.5304025e-13, -0.0011296858, 0.9999994)
+bones/17/rotation = Quaternion(-0.023705747, 0.7067119, -0.023706399, 0.7067067)
+bones/18/rotation = Quaternion(5.8443046e-09, -1.1920952e-07, -0.0008342828, 0.99999964)
+bones/19/rotation = Quaternion(-4.3062895e-09, 1.119085e-14, 0.0006095173, 0.9999998)
+bones/20/rotation = Quaternion(-0.012588441, 0.7069973, -0.0125890095, 0.70699215)
+bones/21/rotation = Quaternion(-8.656084e-10, -1.1920914e-07, 1.2215227e-05, 1)
+bones/22/rotation = Quaternion(7.5392235e-09, 6.7876606e-14, -0.0010671007, 0.99999946)
+bones/23/rotation = Quaternion(0.24741319, 0.94579446, 0.20344128, 0.053584408)
+bones/24/rotation = Quaternion(-0.00013586506, -7.4103606e-05, 4.7961927e-05, 1)
+bones/25/rotation = Quaternion(0.0002479573, 8.093916e-05, -0.00053530734, 0.9999998)
+bones/26/rotation = Quaternion(-0.60402054, 0.34510297, 0.3567177, 0.6235509)
+bones/27/rotation = Quaternion(0.18026969, -0.68385, 0.17983644, 0.6837477)
+bones/28/rotation = Quaternion(0.01718226, 2.0522913e-05, -5.037898e-07, 0.9998525)
+bones/29/rotation = Quaternion(-0.008619739, -2.0551936e-09, -2.3840974e-07, 0.99996287)
+bones/30/rotation = Quaternion(2.795747e-07, -0.70710933, 2.795726e-07, 0.7071042)
+bones/31/rotation = Quaternion(-8.41739e-21, 1.1920929e-07, -4.4409546e-16, 1)
+bones/32/rotation = Quaternion(-6.471861e-21, -4.950369e-32, -4.181883e-16, 1)
+bones/33/rotation = Quaternion(-0.016702125, -0.7069121, 0.016702803, 0.7069069)
+bones/34/rotation = Quaternion(-1.0920892e-08, 1.19208934e-07, -0.0015135984, 0.99999887)
+bones/35/rotation = Quaternion(7.981395e-09, 1.3600664e-13, 0.0011296867, 0.9999994)
+bones/36/rotation = Quaternion(-0.023705702, -0.7067119, 0.02370644, 0.7067067)
+bones/37/rotation = Quaternion(5.574926e-09, 1.1920969e-07, 0.0008342233, 0.99999964)
+bones/38/rotation = Quaternion(-4.3059085e-09, -2.7095891e-14, -0.0006094539, 0.9999998)
+bones/39/rotation = Quaternion(-0.0125884, -0.7069973, 0.012589049, 0.70699215)
+bones/40/rotation = Quaternion(7.3771916e-10, 1.1920906e-07, -1.2215227e-05, 1)
+bones/41/rotation = Quaternion(7.5392315e-09, -4.7441428e-14, 0.0010671007, 0.99999946)
+bones/42/rotation = Quaternion(-0.24741323, 0.9457944, 0.20344138, -0.053584486)
+bones/43/rotation = Quaternion(-0.00013568626, 7.4088406e-05, -4.7922134e-05, 1)
+bones/44/rotation = Quaternion(0.00024793483, -8.100484e-05, 0.00053529936, 0.9999998)
+bones/45/rotation = Quaternion(0.9924842, 0, 0, 0.122372724)
+bones/46/rotation = Quaternion(0.036589734, -0.0001311736, -4.797836e-06, 0.9993304)
+bones/47/rotation = Quaternion(-0.5290733, -0.00032809036, 0.00034345014, 0.848576)
+bones/48/rotation = Quaternion(-0.00013717555, 0.9643068, -0.26478708, -0.00049942714)
+bones/49/rotation = Quaternion(0.9924842, 9.236082e-09, -1.1387633e-09, 0.122372724)
+bones/50/rotation = Quaternion(0.036589734, -0.00013117323, -4.797519e-06, 0.9993304)
+bones/51/rotation = Quaternion(-0.5290733, -0.00032809481, 0.00034345797, 0.848576)
+bones/52/rotation = Quaternion(-0.00013717555, 0.9643068, -0.26478708, -0.00049942714)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D" index="1" unique_id=228616765]
-transform = Transform3D(-0.9862841, -0.14708368, 0.07490374, 0.16505492, -0.876041, 0.45310974, -0.0010262253, 0.4592583, 0.8883021, -0.28709564, 0.92530394, -0.2125364)
+transform = Transform3D(8.922674e-07, -1, 2.104789e-07, 0.9999998, 8.2440204e-07, 1.05327544e-07, -5.41621e-08, 1.09896064e-07, 1.0000001, -0.73889995, 1.4408001, -0.065400004)
 bone_name = "DEF-hand.R"
 bone_idx = 29
 
@@ -138,21 +127,12 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
 [node name="Weapon" parent="Head/Camera3D/ArmsRoot" index="2" unique_id=204858693]
-transform = Transform3D(0.48758504, 0.025985299, -0.872688, 0.8656598, 0.11561021, 0.48710027, 0.11354918, -0.9929542, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.48758504, 0.02598529, -0.872688, 0.8656598, 0.11561017, 0.48710027, 0.11354918, -0.99295384, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
 
-[node name="HurtBox" type="Area3D" parent="Head/Camera3D/ArmsRoot/Weapon" index="0" unique_id=98691318]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("5_7oing")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera3D/ArmsRoot/Weapon/HurtBox" unique_id=315751507]
-transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 0, 0, 0)
-shape = SubResource("BoxShape3D_pn6s4")
-
-[node name="TargetRight" parent="Head/Camera3D/ArmsRoot/Weapon" index="2" unique_id=703581312]
+[node name="TargetRight" parent="Head/Camera3D/ArmsRoot/Weapon" index="1" unique_id=703581312]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.006463783, 0.10436813, -0.021234872)
 
-[node name="TargetLeft" parent="Head/Camera3D/ArmsRoot/Weapon" index="3" unique_id=1751158588]
+[node name="TargetLeft" parent="Head/Camera3D/ArmsRoot/Weapon" index="2" unique_id=1751158588]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024367541, -0.07334395, -0.015787603)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=447432846]
@@ -167,123 +147,16 @@ text = "Peer ID"
 font_size = 24
 outline_size = 6
 
-[node name="PlayerUi" type="CanvasLayer" parent="." unique_id=1190293794]
+[node name="PlayerUi" parent="." unique_id=1414890553 instance=ExtResource("6_v42im")]
 unique_name_in_owner = true
 
-[node name="Controls" parent="PlayerUi" unique_id=1906408976 instance=ExtResource("5_tpg5x")]
+[node name="SoundHit" type="AudioStreamPlayer" parent="." unique_id=969147843]
 unique_name_in_owner = true
-offset_right = 127.0
-offset_bottom = 64.0
-metadata/_edit_use_anchors_ = true
+stream = ExtResource("7_v42im")
 
-[node name="Menu" type="Control" parent="PlayerUi" unique_id=68847478]
+[node name="SoundPing" type="AudioStreamPlayer" parent="." unique_id=1431078962]
 unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="PlayerUi/Menu" unique_id=28982625]
-layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="PlayerUi/Menu/PanelContainer" unique_id=763618636]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUi/Menu/PanelContainer/MarginContainer" unique_id=1136748676]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUi/Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=1932282086]
-layout_mode = 2
-
-[node name="LabelSession" type="Label" parent="PlayerUi/Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=536262590]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ButtonCopySession" type="Button" parent="PlayerUi/Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=367801452]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/icon_max_width = 24
-icon = ExtResource("2_gfjak")
-
-[node name="ButtonLeave" type="Button" parent="PlayerUi/Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=196040560]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Leave Game"
-
-[node name="Reticle" type="Panel" parent="PlayerUi" unique_id=1077284790]
-custom_minimum_size = Vector2(5, 5)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -2.5
-offset_top = -2.5
-offset_right = 2.5
-offset_bottom = 2.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gfjak")
-
-[node name="HitMarker" type="Label" parent="PlayerUi" unique_id=1391413418]
-unique_name_in_owner = true
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.5, 1)
-pivot_offset_ratio = Vector2(0.5, 0)
-text = "X"
-horizontal_alignment = 1
-
-[node name="TopLeft" type="MarginContainer" parent="PlayerUi" unique_id=705056818]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="PlayerUi" unique_id=1581575230]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 100
-
-[node name="LabelInteract" type="Label" parent="PlayerUi/MarginContainer" unique_id=745484724]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SoundHit" type="AudioStreamPlayer" parent="." unique_id=625036051]
-unique_name_in_owner = true
-stream = ExtResource("3_524rm")
-
-[node name="SoundPing" type="AudioStreamPlayer" parent="." unique_id=1437128364]
-unique_name_in_owner = true
-stream = ExtResource("4_tpg5x")
+stream = ExtResource("8_pn6s4")
 
 [editable path="Head/AnimationLibrary_Godot_Standard"]
 [editable path="Head/Camera3D/ArmsRoot"]
