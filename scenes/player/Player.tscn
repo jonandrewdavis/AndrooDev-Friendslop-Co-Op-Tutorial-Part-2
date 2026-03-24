@@ -31,11 +31,11 @@ properties/4/path = NodePath("Head/Camera3D:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("sword_animation_player", "sword_hurt_box")]
+[node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("weapon_animation_player", "weapon_hurt_box")]
 collision_layer = 9
 script = ExtResource("1_wr5hl")
-sword_animation_player = NodePath("Head/Camera3D/ArmsRoot/SwordAnimationPlayer")
-sword_hurt_box = NodePath("Head/Camera3D/ArmsRoot/Weapon/HurtBox")
+weapon_animation_player = NodePath("Head/Camera3D/ArmsRoot/WeaponAnimationPlayer")
+weapon_hurt_box = NodePath("Head/Camera3D/ArmsRoot/Weapon/HurtBox")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789704607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

@@ -34,7 +34,7 @@ func take_damage(damage: int, source: int):
 		return
 	
 	if next_health <= 0:
-		death()
+		death(source)
 		player_to_notify.register_hit.rpc_id(source, true )
 	else:
 		health = next_health
@@ -44,7 +44,8 @@ func take_damage(damage: int, source: int):
 		await animation_player.animation_finished
 		is_damaged = false
 
-func death():
+func death(source: int):
+	Global.update_score_for(source)
 	set_collision_layer_value(1, false)
 	is_dying = true
 	animation_player.play("Death01")

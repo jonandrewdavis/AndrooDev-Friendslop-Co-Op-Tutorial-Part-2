@@ -47,17 +47,6 @@ func request_interact():
 			body.interact.rpc_id(1)
 			return
 
-func request_interact_secondary():
-	if current_interactable:
-		current_interactable.interact_secondary.rpc_id(1)
-		return
-
-	for body in get_overlapping_bodies():
-		if body is InteractComponent:
-			# TODO: Get information about the type of interact we're about to do from the interactable?
-			body.interact_secondary.rpc_id(1)
-			return
-
 ## Called from the server to the player who requested an activation
 @rpc("any_peer", "call_local", "reliable")
 func set_current_interactable(path):

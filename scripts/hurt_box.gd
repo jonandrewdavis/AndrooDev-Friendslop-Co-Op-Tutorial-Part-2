@@ -14,10 +14,10 @@ func on_body_entered(body: Node3D):
 			return 
 			
 		bodies_hit.append(body)
-		replicate_take_damage.rpc_id(1, body.get_path(), current_damage)
+		replicate_take_damage.rpc_id(1, body.get_path(), current_damage, get_multiplayer_authority())
 
 @rpc("any_peer", "call_local")
-func replicate_take_damage(path: NodePath, given_damage: int):
+func replicate_take_damage(path: NodePath, given_damage: int, source: int):
 	var target_to_hurt = get_node_or_null(path)
 	if target_to_hurt:
-		target_to_hurt.take_damage(given_damage, multiplayer.get_remote_sender_id())
+		target_to_hurt.take_damage(given_damage, source)

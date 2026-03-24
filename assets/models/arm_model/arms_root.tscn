@@ -8,91 +8,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_4udp2"]
 size = Vector3(0.5, 3, 0.5)
 
-[sub_resource type="Animation" id="Animation_7oing"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Weapon:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.50876683, -1.5319985, 1.4380304)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.044629604, -0.2631794, -0.75293124)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Weapon:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Weapon/HurtBox:monitoring")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_on766"]
-resource_name = "hold"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Weapon:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.45084786, 0.48324636, 0.6666667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 2.828429, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.33617833, -0.52601266, -1.1528939), Vector3(0.17661954, 0.9569735, -0.028654933), Vector3(0.19503018, 0.7858597, -0.15837479), Vector3(0.3900435, 0.2179004, -1.6460984), Vector3(0.081, -1.086, -1.707), Vector3(0.081, -1.086, -1.742), Vector3(0.081, -1.086, -1.742), Vector3(0.33617833, -0.52601266, -1.1528939)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.23445089, 0.33333334, 0.33405864, 0.45926636, 0.4897601, 0.56666666, 0.73333335),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, -0.117321), Vector3(0.95209605, -0.16631448, -0.20321779), Vector3(0.36581033, 1.3675531, 0.79196155), Vector3(0.44165117, 1.5659388, -0.6562522), Vector3(0.44165117, 1.5659388, -0.6562522), Vector3(0.2692042, 1.5773426, -1.8619735), Vector3(0.2692042, 1.5773426, -1.8619735), Vector3(0.26882088, 1.577368, -1.4315493), Vector3(0, 0, -0.117321)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_5stf6"]
-_data = {
-&"RESET": SubResource("Animation_7oing"),
-&"hold": SubResource("Animation_on766")
-}
-
 [node name="ArmsRoot" type="Node3D" unique_id=182167908]
 
 [node name="Right" type="Node3D" parent="." unique_id=1677027420]
@@ -150,7 +65,7 @@ settings/0/end_bone/length = 0.1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07560158, -0.12454414, -0.4190972)
 
 [node name="Weapon" type="Node3D" parent="." unique_id=204858693]
-transform = Transform3D(0.48758513, 0.025985304, -0.8726884, 0.8656599, 0.11561023, 0.4871005, 0.1135492, -0.9929544, 0.033875402, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.9931257, 0.117052004, 0, -0.11705203, 0.99312544, 0, 0, 0, 0.99999976, 0.33617833, -0.52601266, -1.1528939)
 
 [node name="Root Scene" parent="Weapon" unique_id=509453031 instance=ExtResource("2_q46v1")]
 
@@ -173,12 +88,11 @@ script = ExtResource("3_q46v1")
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 0, 0, 0)
 shape = SubResource("BoxShape3D_4udp2")
 
-[node name="SwordAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1984194980]
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1984194980]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_5stf6")
 libraries/arm_model_animations = ExtResource("3_4udp2")
 autoplay = &"arm_model_animations/idle"
-speed_scale = 0.8
+speed_scale = 0.7
 
 [editable path="Right/arm_model"]
 [editable path="Left/arm_model"]

@@ -5,7 +5,10 @@ var username := ''
 var forest: Node3D
 var spawn_container: Node3D
 
+var scores: Dictionary = {1 : 0}
+
 var BALL = load("uid://c1yny3sauy8yu")
+signal signal_score_updated(new_scores)
 
 @rpc("any_peer", "call_local")
 func shoot_ball(pos, dir, force):
@@ -23,3 +26,19 @@ func get_player(peer_id: int) -> Player:
 			break
 	# TODO: Handle not found?
 	return player_to_find
+
+func update_score_for(peer_id: int):
+	if scores.has(peer_id):
+		scores[peer_id] = scores[peer_id] + 1
+	else:
+		scores[peer_id] = 0
+	
+	replicate_scores.rpc(scores)
+
+func remove_score_for(peer_id: int	):
+	scores.erase(peer_id)
+	replicate_scores.rpc(scores)
+	
+@rpc("authority", "call_local")
+func replicate_scores(new_scores):
+	signal_score_updated.emit(new_scores)
