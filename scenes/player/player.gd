@@ -15,7 +15,6 @@ const JUMP_VELOCITY = 4.5
 @onready var button_leave: Button = %ButtonLeave
 @onready var label_session: Label = %LabelSession
 @onready var button_copy_session: Button = %ButtonCopySession
-@onready var controls: VBoxContainer = %Controls
 
 @onready var canvas_layer: CanvasLayer = %CanvasLayer
 @onready var hit_marker: Label = %HitMarker
@@ -72,7 +71,6 @@ func open_menu(current_visibility: bool):
 	menu.visible = !current_visibility
 	
 	immobile = menu.visible
-	controls.visible = !menu.visible
 
 	if menu.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

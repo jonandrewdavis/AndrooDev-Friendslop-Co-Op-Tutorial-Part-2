@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://pxj3b3e28fg3" path="res://addons/tube/inspector/icons/clipboard_icon.tres" id="2_gfjak"]
 [ext_resource type="AudioStream" uid="uid://cdov6nnydfvny" path="res://assets/sound/click.mp3" id="3_524rm"]
 [ext_resource type="AudioStream" uid="uid://d0xrt28ytpro" path="res://assets/sound/ping.mp3" id="4_tpg5x"]
-[ext_resource type="PackedScene" uid="uid://lm4alclh6bt3" path="res://scenes/player/controls.tscn" id="5_tpg5x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
 
@@ -70,11 +69,6 @@ outline_size = 6
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1190293794]
 unique_name_in_owner = true
-
-[node name="Controls" parent="CanvasLayer" unique_id=1906408976 instance=ExtResource("5_tpg5x")]
-unique_name_in_owner = true
-offset_right = 127.0
-offset_bottom = 64.0
 
 [node name="Menu" type="Control" parent="CanvasLayer" unique_id=68847478]
 unique_name_in_owner = true
