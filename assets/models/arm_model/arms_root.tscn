@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://pfvhfh5nxuc1"]
+
+[ext_resource type="PackedScene" uid="uid://ct3niy3bnyn7u" path="res://assets/models/arm_model/arm_model.glb" id="1_on766"]
+[ext_resource type="PackedScene" uid="uid://ckmx5487j45kh" path="res://assets/models/sword/Sword.glb" id="2_q46v1"]
+[ext_resource type="AnimationLibrary" uid="uid://cj3elpkn0e5kq" path="res://assets/models/arm_model/arm_model_animations.res" id="3_4udp2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4udp2"]
+size = Vector3(0.5, 3, 0.5)
+
+[node name="ArmsRoot" type="Node3D" unique_id=182167908]
+
+[node name="Right" type="Node3D" parent="." unique_id=1677027420]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.4, -0.35, 0)
+
+[node name="arm_model" parent="Right" unique_id=708149612 instance=ExtResource("1_on766")]
+
+[node name="Cube" parent="Right/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(708149612, 1804449942) index="0" unique_id=1134502422]
+cast_shadow = 0
+
+[node name="TwoBoneIK3D" type="TwoBoneIK3D" parent="Right/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(708149612, 1804449942) index="1" unique_id=377235613]
+setting_count = 1
+settings/0/target_node = NodePath("../../../../../Weapon/TargetRight")
+settings/0/pole_node = NodePath("../../PoleRight")
+settings/0/root_bone_name = "Bone"
+settings/0/root_bone = 0
+settings/0/middle_bone_name = "Bone.001"
+settings/0/middle_bone = 1
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "Bone.002"
+settings/0/end_bone = 2
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = true
+settings/0/end_bone/direction = 6
+settings/0/end_bone/length = 0.12
+
+[node name="PoleRight" type="Marker3D" parent="Right/arm_model/Armature" parent_id_path=PackedInt32Array(708149612, 635505380) index="1" unique_id=1107677664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3213538, -0.75972366, 1.8719444)
+
+[node name="Left" type="Node3D" parent="." unique_id=1496079033]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.525, -0.35, 0)
+
+[node name="arm_model" parent="Left" unique_id=1008876656 instance=ExtResource("1_on766")]
+
+[node name="Cube" parent="Left/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1008876656, 1804449942) index="0" unique_id=1134502422]
+cast_shadow = 0
+
+[node name="TwoBoneIK3D" type="TwoBoneIK3D" parent="Left/arm_model/Armature/Skeleton3D" parent_id_path=PackedInt32Array(1008876656, 1804449942) index="1" unique_id=567516490]
+setting_count = 1
+settings/0/target_node = NodePath("../../../../../Weapon/TargetLeft")
+settings/0/pole_node = NodePath("../../PoleLeft")
+settings/0/root_bone_name = "Bone"
+settings/0/root_bone = 0
+settings/0/middle_bone_name = "Bone.001"
+settings/0/middle_bone = 1
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "Bone.002"
+settings/0/end_bone = 2
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = true
+settings/0/end_bone/direction = 6
+settings/0/end_bone/length = 0.1
+
+[node name="PoleLeft" type="Marker3D" parent="Left/arm_model/Armature" parent_id_path=PackedInt32Array(1008876656, 635505380) index="1" unique_id=1831733997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07560158, -0.12454414, -0.4190972)
+
+[node name="Weapon" type="Node3D" parent="." unique_id=204858693]
+transform = Transform3D(0.9931257, 0.117052004, 0, -0.11705203, 0.99312544, 0, 0, 0, 0.99999976, 0.33617833, -0.52601266, -1.1528939)
+
+[node name="Root Scene" parent="Weapon" unique_id=509453031 instance=ExtResource("2_q46v1")]
+
+[node name="Sword" parent="Weapon/Root Scene/RootNode" parent_id_path=PackedInt32Array(509453031, 217589866) index="0" unique_id=1917024818]
+cast_shadow = 0
+
+[node name="TargetRight" type="Marker3D" parent="Weapon" unique_id=703581312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02900558, 0.058719054, -0.021234872)
+
+[node name="TargetLeft" type="Marker3D" parent="Weapon" unique_id=1751158588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008147523, -0.036761124, -0.015787603)
+
+[node name="HurtBox" type="Area3D" parent="Weapon" unique_id=443176886]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Weapon/HurtBox" unique_id=448741298]
+transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 0, 0, 0)
+shape = SubResource("BoxShape3D_4udp2")
+
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1984194980]
+unique_name_in_owner = true
+libraries/arm_model_animations = ExtResource("3_4udp2")
+autoplay = &"arm_model_animations/idle"
+speed_scale = 0.7
+
+[editable path="Right/arm_model"]
+[editable path="Left/arm_model"]
+[editable path="Weapon/Root Scene"]
