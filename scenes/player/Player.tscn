@@ -7,12 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c4vx641ipq5b4" path="res://scenes/player/player_ui.tscn" id="6_v42im"]
 [ext_resource type="AudioStream" uid="uid://cdov6nnydfvny" path="res://assets/sound/click.mp3" id="7_v42im"]
 [ext_resource type="AudioStream" uid="uid://d0xrt28ytpro" path="res://assets/sound/ping.mp3" id="8_pn6s4"]
-[ext_resource type="Script" uid="uid://c581124y1tke8" path="res://scripts/interact_area.gd" id="8_v42im"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_npwbq"]
-size = Vector3(0.5, 0.5, 2.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wr5hl"]
 properties/0/path = NodePath(".:position")
@@ -114,20 +110,12 @@ transform = Transform3D(-0.15130241, -3.7252903e-09, 0.5806096, 0.57750064, 0.06
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="InteractArea" type="Area3D" parent="Head/Camera3D" unique_id=719165007]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.25)
-script = ExtResource("8_v42im")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera3D/InteractArea" unique_id=74595373]
-shape = SubResource("BoxShape3D_npwbq")
-
 [node name="ArmsRoot" parent="Head/Camera3D" unique_id=182167908 instance=ExtResource("4_pn6s4")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
 [node name="Weapon" parent="Head/Camera3D/ArmsRoot" index="2" unique_id=204858693]
-transform = Transform3D(0.48758504, 0.02598529, -0.872688, 0.8656598, 0.11561017, 0.48710027, 0.11354918, -0.99295384, 0.033875383, 0.044629604, -0.2631794, -0.75293124)
+transform = Transform3D(0.9931255, 0.117051944, 0, -0.11705201, 0.9931249, 0, 0, 0, 0.9999993, 0.33617833, -0.52601266, -1.1528939)
 
 [node name="TargetRight" parent="Head/Camera3D/ArmsRoot/Weapon" index="1" unique_id=703581312]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.006463783, 0.10436813, -0.021234872)

@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var animation_player: AnimationPlayer = $AnimationLibrary_Godot_Standard/AnimationPlayer
 @onready var mannequin: MeshInstance3D = $AnimationLibrary_Godot_Standard/Rig/Skeleton3D/Mannequin
+@onready var timer_damage: Timer = %TimerDamage
 
 @export var health := 100
 
@@ -17,6 +18,10 @@ func _ready():
 	new_material.albedo_color = Color.DARK_MAGENTA
 	mannequin.set_surface_override_material(0, new_material)
 	look_at(target)
+	
+	if multiplayer.is_server():
+		timer_damage.wait_time = 2.5
+		timer_damage.timeout.connect(func(): Global.damage_crystal(10))
 
 func take_damage(damage: int, source: int):
 	if is_dying:
@@ -52,7 +57,7 @@ func death(source: int):
 	await animation_player.animation_finished
 	queue_free()
 
-var SPEED := 3.0
+var SPEED := 2.0
 var target := Vector3.ZERO
 var direction := Vector3.ZERO
 
@@ -69,6 +74,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		direction = Vector3.ZERO
 		animation_player.play("Spell_Simple_Shoot")
+		start_crystal_damage()
 	
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -78,3 +84,8 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+
+func start_crystal_damage():
+	if timer_damage.is_stopped():
+		timer_damage.start()

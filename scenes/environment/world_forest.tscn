@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://durlbko8p6y4e" path="res://assets/kenney_prototype-textures/Vector/texture_08.svg" id="1_b5dff"]
 [ext_resource type="Texture2D" uid="uid://blvb6t4n6gmvm" path="res://assets/kenney_prototype-textures/PNG/Green/texture_09.png" id="2_3pli8"]
 [ext_resource type="PackedScene" uid="uid://cypdi1lb7klts" path="res://assets/models/crystal/scene.gltf" id="4_1o1l2"]
-[ext_resource type="PackedScene" uid="uid://bdd85qyit7ih5" path="res://assets/models/castle_town/castle_town.glb" id="5_j6fc8"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mloxv"]
 
@@ -133,7 +132,6 @@ spawn_path = NodePath("../SpawnContainer")
 [node name="TimerTarget" type="Timer" parent="." unique_id=32496409]
 unique_name_in_owner = true
 wait_time = 5.0
-autostart = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=949773556]
 
@@ -167,6 +165,3 @@ mesh = SubResource("PlaneMesh_j6fc8")
 
 [node name="Sketchfab_Scene" parent="." unique_id=2132935976 instance=ExtResource("4_1o1l2")]
 transform = Transform3D(1, 0, 0, 0, 0.9465367, 0.32259613, 0, -0.32259613, 0.9465367, 0, -1.9905224, 0)
-
-[node name="castle_town" parent="." unique_id=941760786 instance=ExtResource("5_j6fc8")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 17.77931, 0, 56.765568)

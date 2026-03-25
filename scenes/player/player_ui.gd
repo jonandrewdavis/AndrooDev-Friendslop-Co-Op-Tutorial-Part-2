@@ -7,10 +7,10 @@ extends CanvasLayer
 @onready var button_copy_session: Button = %ButtonCopySession
 @onready var controls: VBoxContainer = %Controls
 @onready var hit_marker: Label = %HitMarker
-@onready var player_ui: CanvasLayer = %PlayerUi
-@onready var label_interact: Label = %LabelInteract
 
 @onready var scoreboard: ItemList = %Scoreboard
+@onready var progress_bar_crystal: ProgressBar = %ProgressBarCrystal
+@onready var button_start_rond: Button = %ButtonStartRond
 
 func _ready() -> void:
 	if is_multiplayer_authority():
@@ -19,7 +19,7 @@ func _ready() -> void:
 		hide()
 
 func ready_client_menu():
-	player_ui.show()
+	show()
 	menu.hide()
 	hit_marker.hide()
 	label_session.text = Network.tube_client.session_id
@@ -33,13 +33,28 @@ func ready_client_menu():
 	scoreboard.auto_width = true
 	
 	Global.signal_score_updated.connect(render_scoreboard)
-
+	Global.signal_crystal_health_updated.connect(render_crystal_health)
+	
+	progress_bar_crystal.max_value = Global.CRYSTAL_DEFAULT_HEALTH
+	progress_bar_crystal.value = Global.CRYSTAL_DEFAULT_HEALTH
+	progress_bar_crystal.hide()
+	
+	button_start_rond.pressed.connect(Global.crystal_game_start)
+	
 func render_scoreboard(new_scores: Dictionary):
 	scoreboard.clear()
-	for player in get_tree().get_nodes_in_group('Players'):
+	for peer_id in new_scores.keys(): 
+		# Add the nickname
+		var player = Global.get_player(peer_id)
 		scoreboard.add_item(player.nameplate.text)
-		var player_peer_id = player.get_multiplayer_authority()
-		if player_peer_id in new_scores:
-			scoreboard.add_item(str(new_scores[player_peer_id]))
+		
+		# Add the score or 
+		if peer_id in new_scores:
+			scoreboard.add_item(str(new_scores[peer_id]))
 		else:
-			scoreboard.add_item("0")
+			scoreboard.add_item("0")	
+
+func render_crystal_health(current_health: int):
+	if not progress_bar_crystal.visible:
+		progress_bar_crystal.show()
+	progress_bar_crystal.value = current_health

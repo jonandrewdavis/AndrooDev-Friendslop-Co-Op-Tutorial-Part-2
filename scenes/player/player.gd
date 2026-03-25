@@ -21,7 +21,6 @@ const JUMP_VELOCITY = 4.5
 @onready var arms_root: Node3D = %ArmsRoot
 @export var weapon_animation_player: AnimationPlayer
 @export var weapon_hurt_box: HurtBox
-@onready var interact_area: InteractArea = %InteractArea
 
 var immobile := false
 
@@ -76,9 +75,6 @@ func _process(_delta: float) -> void:
 	
 	if Input.is_action_just_pressed('attack2'):
 		attack(2)
-
-	if Input.is_action_just_pressed('interact'):
-		interact_area.request_interact()
 
 func open_menu(current_visibility: bool):
 	player_ui.menu.visible = !current_visibility

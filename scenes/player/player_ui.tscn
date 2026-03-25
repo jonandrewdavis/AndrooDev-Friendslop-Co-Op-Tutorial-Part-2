@@ -11,6 +11,26 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fatww"]
+bg_color = Color(0.21410304, 0.21410304, 0.21410292, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Gradient" id="Gradient_mo8vb"]
+colors = PackedColorArray(0.5372549, 0, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nlx67"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_by614"]
+height = 64
+noise = SubResource("FastNoiseLite_nlx67")
+color_ramp = SubResource("Gradient_mo8vb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_en3kk"]
+texture = SubResource("NoiseTexture2D_by614")
+
 [node name="PlayerUi" type="CanvasLayer" unique_id=1414890553]
 script = ExtResource("1_fatww")
 
@@ -64,6 +84,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Leave Game"
 
+[node name="ButtonStartRond" type="Button" parent="Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=1875804198]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Round
+"
+
 [node name="Scoreboard" type="ItemList" parent="Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=768692644]
 unique_name_in_owner = true
 layout_mode = 2
@@ -102,26 +128,32 @@ pivot_offset_ratio = Vector2(0.5, 0)
 text = "X"
 horizontal_alignment = 1
 
-[node name="TopLeft" type="MarginContainer" parent="." unique_id=1545365669]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1780205857]
-anchors_preset = 7
+[node name="TopCenter" type="MarginContainer" parent="." unique_id=1632090484]
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -120.0
+offset_right = 120.0
+offset_bottom = 50.0
 grow_horizontal = 2
-grow_vertical = 0
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_bottom = 20
 
-[node name="LabelInteract" type="Label" parent="MarginContainer" unique_id=1392000688]
+[node name="ProgressBarCrystal" type="ProgressBar" parent="TopCenter" unique_id=1731771052]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 10)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fatww")
+theme_override_styles/fill = SubResource("StyleBoxTexture_en3kk")
+value = 50.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="TopCenter/ProgressBarCrystal" unique_id=1169344796]
+layout_mode = 0
+offset_top = -27.0
+offset_right = 200.0
+offset_bottom = -4.666666
+text = "Crystal Health"
+horizontal_alignment = 1

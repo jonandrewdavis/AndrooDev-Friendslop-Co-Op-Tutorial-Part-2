@@ -28,6 +28,10 @@ func tube_create():
 	tube_client.create_session()
 	add_player(1)
 
+	multiplayer.peer_connected.connect(Global.update_score_for)
+	multiplayer.peer_disconnected.connect(Global.remove_score_for)
+
+
 func tube_join(session_id: String):
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
