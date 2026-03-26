@@ -1,0 +1,120 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3p410vwblsb3"]
+
+[ext_resource type="Script" uid="uid://dadtx2xi0157" path="res://addons/tube/inspector/client_control.gd" id="1_xtewr"]
+[ext_resource type="Theme" uid="uid://bcibt73qths3g" path="res://addons/tube/inspector/theme.tres" id="1_y7bgu"]
+
+[node name="ClientControl" type="MarginContainer"]
+offset_right = 245.0
+offset_bottom = 77.0
+theme = ExtResource("1_y7bgu")
+script = ExtResource("1_xtewr")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ClientContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ClientContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"LabelH3"
+text = "Client"
+
+[node name="ClientLabel" type="Label" parent="VBoxContainer/ClientContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text_overrun_behavior = 3
+
+[node name="ContextContainer" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ContextContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"LabelH3"
+text = "Context"
+
+[node name="ContextLabel" type="Label" parent="VBoxContainer/ContextContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text_overrun_behavior = 3
+
+[node name="AppIdContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/AppIdContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"LabelH3"
+text = "App ID"
+
+[node name="AppIdLabel" type="Label" parent="VBoxContainer/AppIdContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text_overrun_behavior = 3
+
+[node name="RootNodeContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/RootNodeContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"LabelH3"
+text = "Root node"
+
+[node name="RootNodeLabel" type="Label" parent="VBoxContainer/RootNodeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text_overrun_behavior = 3
+
+[node name="NatContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="NATDetectionButton" type="Button" parent="VBoxContainer/NatContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Reload"
+theme_type_variation = &"FlatButton"
+text = "NAT hole punching"
+
+[node name="NATDetectionLabel" type="Label" parent="VBoxContainer/NatContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text = "Unknow"
+text_overrun_behavior = 3
+
+[node name="UPNPContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="UPNPPortMappingButton" type="Button" parent="VBoxContainer/UPNPContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Reload"
+theme_type_variation = &"FlatButton"
+text = "UPnP port mapping"
+
+[node name="UPNPPortMappingLabel" type="Label" parent="VBoxContainer/UPNPContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LabelH2"
+text = "Unknow"
+text_overrun_behavior = 3
+
+[connection signal="pressed" from="VBoxContainer/NatContainer/NATDetectionButton" to="." method="_on_nat_detection_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/UPNPContainer/UPNPPortMappingButton" to="." method="_on_upnp_port_mapping_button_pressed"]

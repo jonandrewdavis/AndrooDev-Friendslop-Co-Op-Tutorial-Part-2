@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://c4q8uea8d6p8k"]
+
+[ext_resource type="Script" uid="uid://cyavwb4iw6rub" path="res://scenes/ui/main_menu.gd" id="1_sl1te"]
+[ext_resource type="Texture2D" uid="uid://b4o7vx0n8db1s" path="res://addons/tube/icons/tube_client.svg" id="2_fe2o3"]
+
+[node name="MainMenu" type="CanvasLayer" unique_id=1482325763]
+script = ExtResource("1_sl1te")
+
+[node name="Control" type="Control" parent="." unique_id=2009268844]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="PanelContainer" parent="Control" unique_id=882952804]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Center" unique_id=57966873]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Center/MarginContainer" unique_id=752125355]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="EnetMenu" type="VBoxContainer" parent="Control/Center/MarginContainer/HBoxContainer" unique_id=85887884]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Center/MarginContainer/HBoxContainer/EnetMenu" unique_id=225050093]
+layout_mode = 2
+text = "Androo Game"
+
+[node name="ButtonJoin" type="Button" parent="Control/Center/MarginContainer/HBoxContainer/EnetMenu" unique_id=197219473]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="ButtonQuit" type="Button" parent="Control/Center/MarginContainer/HBoxContainer/EnetMenu" unique_id=1133431028]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="TubeMenu" type="VBoxContainer" parent="Control/Center/MarginContainer/HBoxContainer" unique_id=1250280223]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelTitle" type="Label" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=455454260]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Androo Game"
+
+[node name="LabelSessionid" type="Label" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=390504241]
+layout_mode = 2
+text = "Session ID:"
+
+[node name="LineEditSession" type="LineEdit" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=382891492]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelUsername" type="Label" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=1449943180]
+layout_mode = 2
+text = "Username:"
+
+[node name="LineEditUsername" type="LineEdit" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=998737583]
+unique_name_in_owner = true
+layout_mode = 2
+max_length = 12
+
+[node name="HSeparator" type="HSeparator" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=814587652]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ButtonJoinTube" type="Button" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=95161552]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="ButtonQuitTube" type="Button" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=614329493]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="HSeparator2" type="HSeparator" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=1704946178]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ButtonCreateTube" type="Button" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=1800931519]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+text = "Create Session"
+icon = ExtResource("2_fe2o3")

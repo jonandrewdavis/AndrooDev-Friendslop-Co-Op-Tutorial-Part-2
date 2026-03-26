@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://w08mo482g7si"]
+
+[ext_resource type="Script" uid="uid://dcm3i5uxyav7q" path="res://scenes/environment/target.gd" id="1_386so"]
+[ext_resource type="Texture2D" uid="uid://cpmagt62gitit" path="res://assets/kenney_prototype-textures/PNG/Orange/texture_09.png" id="1_dvk77"]
+[ext_resource type="PackedScene" uid="uid://3twuvdlmdi7j" path="res://assets/models/animation_library_standard/AnimationLibrary_Godot_Standard.glb" id="3_yyeac"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_386so"]
+radius = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyeac"]
+albedo_texture = ExtResource("1_dvk77")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_8ha04"]
+material = SubResource("StandardMaterial3D_yyeac")
+size = Vector3(1, 2, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_386so"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:health")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("AnimationLibrary_Godot_Standard/AnimationPlayer:current_animation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:collision_layer")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="Target" type="CharacterBody3D" unique_id=488004062 node_paths=PackedStringArray("animation_player", "mesh")]
+script = ExtResource("1_386so")
+animation_player = NodePath("AnimationLibrary_Godot_Standard/AnimationPlayer")
+mesh = NodePath("AnimationLibrary_Godot_Standard/Rig/Skeleton3D/Mannequin")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=766082793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_386so")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=800688659]
+visible = false
+mesh = SubResource("BoxMesh_8ha04")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1520026565]
+replication_config = SubResource("SceneReplicationConfig_386so")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1956784471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1123567, 0)
+billboard = 2
+fixed_size = true
+alpha_antialiasing_mode = 1
+text = "1"
+font_size = 8
+outline_size = 4
+
+[node name="AnimationLibrary_Godot_Standard" parent="." unique_id=1638584414 instance=ExtResource("3_yyeac")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="AnimationLibrary_Godot_Standard/Rig" parent_id_path=PackedInt32Array(1638584414, 1752502228) index="0" unique_id=1672785789]
+bones/1/position = Vector3(0.027964044, 0.08448892, 0.8772038)
+bones/1/rotation = Quaternion(0.7152891, -0.2622676, -0.2303257, 0.60541505)
+bones/3/rotation = Quaternion(-0.039844085, -0.034301095, -0.0054115774, 0.9986024)
+bones/4/rotation = Quaternion(0.11168436, -0.10098222, -0.024081806, 0.98830634)
+bones/5/rotation = Quaternion(0.03607323, 0.06883485, 0.0085206125, 0.9969393)
+bones/6/rotation = Quaternion(0.02927892, 0.3746725, -0.037841164, 0.92592186)
+bones/7/rotation = Quaternion(-0.5615601, -0.39738023, -0.37007874, 0.62432444)
+bones/8/rotation = Quaternion(0.3335237, 0.62970334, -0.278789, 0.64382637)
+bones/9/rotation = Quaternion(0.08172485, -0.5727702, 0.05753382, 0.81360024)
+bones/10/rotation = Quaternion(0.16023597, 0.2898278, 0.15885426, 0.930102)
+bones/11/rotation = Quaternion(0.08840712, 0.70224184, 0.0768428, 0.7022363)
+bones/12/rotation = Quaternion(0.16029705, -0.0064189383, 0.0010426013, 0.98704743)
+bones/13/rotation = Quaternion(-0.1825098, 5.304511e-08, -3.788886e-09, 0.98320407)
+bones/14/rotation = Quaternion(-0.12021169, 0.7033237, -0.005580604, 0.7006097)
+bones/15/rotation = Quaternion(0.18851896, -0.014038116, -0.019201314, 0.9817815)
+bones/16/rotation = Quaternion(-0.073121406, 8.265745e-05, -0.0011266543, 0.9973225)
+bones/17/rotation = Quaternion(-0.23700324, 0.6564279, -0.28287584, 0.65796137)
+bones/18/rotation = Quaternion(0.30820233, 0.021951975, -0.00799157, 0.951034)
+bones/19/rotation = Quaternion(-0.20073071, -0.00012232295, 0.0005968289, 0.9796463)
+bones/20/rotation = Quaternion(-0.16727282, 0.6931432, -0.11180612, 0.6921502)
+bones/21/rotation = Quaternion(0.24862255, 0.045164824, -0.011593375, 0.96747744)
+bones/22/rotation = Quaternion(-0.09817586, 0.00010480486, -0.0010620429, 0.9951685)
+bones/23/rotation = Quaternion(0.30891687, 0.9251504, 0.21645601, 0.04258944)
+bones/24/rotation = Quaternion(0.11236028, -0.12976784, 0.11508086, 0.978413)
+bones/25/rotation = Quaternion(-0.24962798, 0.00021198406, -0.0004975544, 0.96834177)
+bones/26/rotation = Quaternion(-0.64502627, 0.32004586, 0.37936023, 0.5810315)
+bones/27/rotation = Quaternion(-0.2158891, -0.6935691, 0.45232028, 0.51745546)
+bones/28/rotation = Quaternion(0.23513229, -0.034492888, 0.00834987, 0.9713153)
+bones/29/rotation = Quaternion(0.15946768, -0.20221327, 0.01038385, 0.9662154)
+bones/30/rotation = Quaternion(0.013553142, -0.70697975, 0.013553272, 0.706974)
+bones/31/rotation = Quaternion(0.09181201, 1.5895436e-07, 6.7024374e-08, 0.99577636)
+bones/32/rotation = Quaternion(0.01916731, -3.726088e-09, 1.7325782e-07, 0.99981636)
+bones/33/rotation = Quaternion(0.026242932, -0.6993301, 0.12695779, 0.70294416)
+bones/34/rotation = Quaternion(0.11400696, -0.008206858, -0.00058168446, 0.99344593)
+bones/35/rotation = Quaternion(0.113998294, 0.00012877818, 0.0011226423, 0.9934804)
+bones/36/rotation = Quaternion(0.050584532, -0.68468475, 0.21783455, 0.6936831)
+bones/37/rotation = Quaternion(0.20182022, 0.09983701, -0.01982804, 0.9741192)
+bones/38/rotation = Quaternion(0.20278962, -0.0001236055, -0.00059671956, 0.9792222)
+bones/39/rotation = Quaternion(0.02585919, -0.6938285, 0.17749798, 0.6974437)
+bones/40/rotation = Quaternion(0.11399835, 0.0017290924, -0.00021095287, 0.99347943)
+bones/41/rotation = Quaternion(0.1139985, 0.00012161818, 0.0010604161, 0.9934804)
+bones/42/rotation = Quaternion(-0.29083824, 0.9496492, 0.114583805, -0.021217097)
+bones/43/rotation = Quaternion(0.2193902, -0.02380265, 0.0053048283, 0.97533244)
+bones/44/rotation = Quaternion(-0.0762842, -0.00012174943, 0.0005274415, 0.997086)
+bones/45/rotation = Quaternion(0.9696554, 0.18347451, -0.022621918, 0.15998071)
+bones/46/rotation = Quaternion(0.19189562, -0.34205604, 0.07156278, 0.9170892)
+bones/47/rotation = Quaternion(-0.51759106, 0.02625949, 0.104284845, 0.8488432)
+bones/48/rotation = Quaternion(-0.00013720254, 0.9643068, -0.26478708, -0.00049945107)
+bones/49/rotation = Quaternion(0.97992265, -0.16471618, 0.020309057, 0.1104888)
+bones/50/rotation = Quaternion(0.16952859, 0.3527075, -0.06514985, 0.9179396)
+bones/51/rotation = Quaternion(-0.5241328, -0.27034187, -0.2491132, 0.7682075)
+bones/52/rotation = Quaternion(-0.00013714054, 0.9643068, -0.26478708, -0.0004994165)
+
+[node name="AnimationPlayer" parent="AnimationLibrary_Godot_Standard" index="1" unique_id=907505295]
+autoplay = &"Walk_Formal"
+
+[node name="CrystalTimer" type="Timer" parent="." unique_id=1654839943]
+unique_name_in_owner = true
+
+[editable path="AnimationLibrary_Godot_Standard"]

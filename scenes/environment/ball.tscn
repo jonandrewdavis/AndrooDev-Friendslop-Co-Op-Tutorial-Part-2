@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://c1yny3sauy8yu"]
+
+[ext_resource type="Script" uid="uid://dnmd8txjesqvy" path="res://scenes/environment/ball.gd" id="1_2e5o0"]
+[ext_resource type="Texture2D" uid="uid://dab2wodnessni" path="res://assets/kenney_prototype-textures/PNG/Red/texture_08.png" id="1_jnxa0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2e5o0"]
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sblyl"]
+albedo_texture = ExtResource("1_jnxa0")
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_ono7e"]
+material = SubResource("StandardMaterial3D_sblyl")
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jnxa0"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sblyl"]
+radius = 0.4
+
+[node name="Ball" type="RigidBody3D" unique_id=1248059213]
+collision_layer = 0
+mass = 3.0
+script = ExtResource("1_2e5o0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1441134331]
+shape = SubResource("SphereShape3D_2e5o0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1151437209]
+mesh = SubResource("SphereMesh_ono7e")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=37254726]
+replication_config = SubResource("SceneReplicationConfig_jnxa0")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1226165353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7374496, 0)
+billboard = 1
+text = "1"
+font_size = 24
+outline_size = 8
+
+[node name="Area3D" type="Area3D" parent="." unique_id=743508399]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1860800151]
+shape = SubResource("SphereShape3D_sblyl")

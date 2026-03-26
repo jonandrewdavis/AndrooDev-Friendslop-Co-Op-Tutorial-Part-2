@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://yubh30707eb7"]
+
+[ext_resource type="Script" uid="uid://c06gks0biq762" path="res://scenes/environment/world_forest.gd" id="1_3pli8"]
+[ext_resource type="Texture2D" uid="uid://durlbko8p6y4e" path="res://assets/kenney_prototype-textures/Vector/texture_08.svg" id="1_b5dff"]
+[ext_resource type="Texture2D" uid="uid://blvb6t4n6gmvm" path="res://assets/kenney_prototype-textures/PNG/Green/texture_09.png" id="2_3pli8"]
+[ext_resource type="PackedScene" uid="uid://cypdi1lb7klts" path="res://assets/models/crystal/scene.gltf" id="4_1o1l2"]
+[ext_resource type="PackedScene" uid="uid://bdd85qyit7ih5" path="res://assets/models/castle_town/castle_town.glb" id="5_j6fc8"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mloxv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1o1l2"]
+albedo_texture = ExtResource("1_b5dff")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0waaa"]
+material = SubResource("StandardMaterial3D_1o1l2")
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j6fc8"]
+albedo_texture = ExtResource("2_3pli8")
+uv1_triplanar = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0wskc"]
+material = SubResource("StandardMaterial3D_j6fc8")
+height = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dxoa6"]
+height = 5.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_b5dff"]
+
+[sub_resource type="Sky" id="Sky_3pli8"]
+sky_material = SubResource("ProceduralSkyMaterial_b5dff")
+
+[sub_resource type="Environment" id="Environment_1o1l2"]
+background_mode = 2
+sky = SubResource("Sky_3pli8")
+tonemap_mode = 3
+fog_enabled = true
+fog_mode = 1
+fog_density = 0.4
+fog_sky_affect = 0.3
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_3pli8"]
+plane = Plane(1, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1o1l2"]
+size = Vector2(50, 5)
+orientation = 0
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_j6fc8"]
+plane = Plane(-1, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0wskc"]
+flip_faces = true
+size = Vector2(50, 5)
+orientation = 0
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dxoa6"]
+plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bpyjm"]
+size = Vector2(50, 5)
+orientation = 2
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_1o1l2"]
+plane = Plane(0, 0, -1, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j6fc8"]
+flip_faces = true
+size = Vector2(50, 5)
+orientation = 2
+
+[node name="WorldForest" type="Node3D" unique_id=451922858]
+script = ExtResource("1_3pli8")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=27623023]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=870621948]
+shape = SubResource("WorldBoundaryShape3D_mloxv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1055966351]
+mesh = SubResource("PlaneMesh_0waaa")
+
+[node name="Tree" type="StaticBody3D" parent="." unique_id=1287809828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6693077, 2.3352647, -2.2019162)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tree" unique_id=315580087]
+mesh = SubResource("CylinderMesh_0wskc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tree" unique_id=181042213]
+shape = SubResource("CylinderShape3D_dxoa6")
+
+[node name="Tree2" type="StaticBody3D" parent="." unique_id=2012068893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4741535, 0.912714, 1.1780386)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tree2" unique_id=1706242945]
+mesh = SubResource("CylinderMesh_0wskc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tree2" unique_id=1467384900]
+shape = SubResource("CylinderShape3D_dxoa6")
+
+[node name="Tree3" type="StaticBody3D" parent="." unique_id=1559683680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.246338, 0.912714, -7.4832125)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tree3" unique_id=1393443302]
+mesh = SubResource("CylinderMesh_0wskc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tree3" unique_id=2093668119]
+shape = SubResource("CylinderShape3D_dxoa6")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1711943740]
+transform = Transform3D(0.57484823, -0.09363706, 0.8128848, -1.4901161e-08, 0.99343073, 0.114434384, -0.8182601, -0.06578241, 0.5710719, 5.039523, 3.181158, 4.0778894)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=85961920]
+environment = SubResource("Environment_1o1l2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=98634334]
+transform = Transform3D(-0.8660254, -0.25000003, 0.43301275, 0, 0.8660254, 0.5, -0.50000006, 0.4330127, -0.75, 0, 8, 0)
+shadow_enabled = true
+
+[node name="SpawnContainer" type="Node3D" parent="." unique_id=284707713]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=979900599]
+_spawnable_scenes = PackedStringArray("uid://c1yny3sauy8yu", "uid://w08mo482g7si")
+spawn_path = NodePath("../SpawnContainer")
+
+[node name="TimerTarget" type="Timer" parent="." unique_id=32496409]
+unique_name_in_owner = true
+wait_time = 5.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=949773556]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=340236364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_3pli8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=1249793370]
+mesh = SubResource("PlaneMesh_1o1l2")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" unique_id=1602366309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_j6fc8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D2" unique_id=2043038792]
+mesh = SubResource("PlaneMesh_0wskc")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D" unique_id=629645610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+shape = SubResource("WorldBoundaryShape3D_dxoa6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D3" unique_id=146234702]
+mesh = SubResource("PlaneMesh_bpyjm")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D" unique_id=2055439610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
+shape = SubResource("WorldBoundaryShape3D_1o1l2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D4" unique_id=1021326278]
+mesh = SubResource("PlaneMesh_j6fc8")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1802840441 instance=ExtResource("4_1o1l2")]
+transform = Transform3D(1, 0, 0, 0, 0.8622221, 0.50653046, 0, -0.50653046, 0.8622221, 0, -1.9363611, 0)
+
+[node name="castle_town" parent="." unique_id=953451669 instance=ExtResource("5_j6fc8")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15.035551, 0, 61.95264)
