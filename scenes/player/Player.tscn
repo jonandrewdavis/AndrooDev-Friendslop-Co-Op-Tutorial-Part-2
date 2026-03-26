@@ -1,18 +1,14 @@
 [gd_scene format=3 uid="uid://dbcqeo103wau6"]
 
 [ext_resource type="Script" uid="uid://bqta7emfadpxj" path="res://scenes/player/player.gd" id="1_wr5hl"]
-[ext_resource type="Texture2D" uid="uid://pxj3b3e28fg3" path="res://addons/tube/inspector/icons/clipboard_icon.tres" id="2_gfjak"]
+[ext_resource type="PackedScene" uid="uid://pfvhfh5nxuc1" path="res://assets/models/arm_model/arms_root.tscn" id="2_c3xxp"]
+[ext_resource type="PackedScene" uid="uid://3twuvdlmdi7j" path="res://assets/models/animation_library_standard/AnimationLibrary_Godot_Standard.glb" id="2_tpg5x"]
 [ext_resource type="AudioStream" uid="uid://cdov6nnydfvny" path="res://assets/sound/click.mp3" id="3_524rm"]
+[ext_resource type="PackedScene" uid="uid://dbmebfvk810or" path="res://scenes/player/player_ui.tscn" id="3_tpg5x"]
+[ext_resource type="PackedScene" uid="uid://ckmx5487j45kh" path="res://assets/models/sword/Sword.glb" id="4_npwbq"]
 [ext_resource type="AudioStream" uid="uid://d0xrt28ytpro" path="res://assets/sound/ping.mp3" id="4_tpg5x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8nba"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wr5hl"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gfjak"]
-top_radius = 0.3
-bottom_radius = 0.1
-height = 1.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wr5hl"]
 properties/0/path = NodePath(".:position")
@@ -24,36 +20,103 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("Nameplate:text")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("Head/AnimationLibrary_Godot_Standard/AnimationPlayer:current_animation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfjak"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[node name="Player" type="CharacterBody3D" unique_id=1582534974]
+[node name="Player" type="CharacterBody3D" unique_id=1582534974 node_paths=PackedStringArray("animation_player", "player_mesh", "weapon_animation_player", "hurt_box", "arm_mesh_right", "arm_mesh_left")]
 collision_layer = 9
 script = ExtResource("1_wr5hl")
+animation_player = NodePath("Head/AnimationLibrary_Godot_Standard/AnimationPlayer")
+player_mesh = NodePath("Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D/Mannequin")
+weapon_animation_player = NodePath("Head/Camera3D/ArmsRoot/WeaponAnimationPlayer")
+hurt_box = NodePath("Head/Camera3D/ArmsRoot/Weapon/HurtBox")
+arm_mesh_right = NodePath("Head/Camera3D/ArmsRoot/RightArm/arm_model/Armature/Skeleton3D/Cube")
+arm_mesh_left = NodePath("Head/Camera3D/ArmsRoot/LeftArm/arm_model/Armature/Skeleton3D/Cube")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789704607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_o8nba")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2062670380]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_wr5hl")
-
 [node name="Head" type="Node3D" parent="." unique_id=2071305103]
 unique_name_in_owner = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=659649992]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.4010596, -0.38197786)
-mesh = SubResource("CylinderMesh_gfjak")
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=2014816838]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="ArmsRoot" parent="Head/Camera3D" unique_id=182167908 instance=ExtResource("2_c3xxp")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+
+[node name="WeaponAnimationPlayer" parent="Head/Camera3D/ArmsRoot" index="3" unique_id=1887611211]
+autoplay = &"arm_model_animations/idle"
+
+[node name="AnimationLibrary_Godot_Standard" parent="Head" unique_id=1638584414 instance=ExtResource("2_tpg5x")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Head/AnimationLibrary_Godot_Standard/Rig" parent_id_path=PackedInt32Array(1638584414, 1752502228) index="0" unique_id=1672785789]
+bones/1/position = Vector3(-0.054853383, 0.10045202, 0.6791631)
+bones/1/rotation = Quaternion(0.7780534, 0.13554485, 0.04072633, 0.61204726)
+bones/3/rotation = Quaternion(0.06205274, -0.050720986, 0.028211605, 0.99638397)
+bones/4/rotation = Quaternion(0.21288937, 0.027061524, 0.011836404, 0.97662985)
+bones/5/rotation = Quaternion(-0.01527641, -0.032066878, 0.0042551258, 0.99935997)
+bones/6/rotation = Quaternion(-0.18533552, -0.03856086, -0.028606698, 0.9815017)
+bones/7/rotation = Quaternion(-0.6347666, -0.30362284, -0.32850817, 0.6300532)
+bones/8/rotation = Quaternion(-0.023442322, 0.7209769, -0.13259451, 0.6797511)
+bones/9/rotation = Quaternion(0.5189412, -0.12308795, 0.08238124, 0.8418805)
+bones/10/rotation = Quaternion(0.07928935, -0.07688493, 0.011137678, 0.9938199)
+bones/11/rotation = Quaternion(-1.9563938e-08, 0.70710963, 2.859989e-07, 0.7071039)
+bones/12/rotation = Quaternion(0.09054089, -1.10653865e-07, -3.7813464e-07, 0.99589276)
+bones/13/rotation = Quaternion(0.09054048, -3.740541e-09, 8.6035016e-08, 0.99589276)
+bones/14/rotation = Quaternion(0.05181918, 0.7019741, -0.08506749, 0.70520264)
+bones/15/rotation = Quaternion(0.096820466, 0.0001462533, 0.0015066299, 0.99530077)
+bones/16/rotation = Quaternion(0.09682049, -0.00010934806, -0.0011246031, 0.9953013)
+bones/17/rotation = Quaternion(0.1627255, 0.67567915, -0.20847446, 0.6881254)
+bones/18/rotation = Quaternion(0.26262566, -0.00021936776, -0.0008049526, 0.9648975)
+bones/19/rotation = Quaternion(0.26262584, 0.00015996308, 0.0005881264, 0.9648976)
+bones/20/rotation = Quaternion(0.1285317, 0.690313, -0.15320577, 0.6953241)
+bones/21/rotation = Quaternion(0.1992505, 2.369617e-06, 1.2352397e-05, 0.9799487)
+bones/22/rotation = Quaternion(0.19925027, -0.00021261112, -0.0010459716, 0.9799481)
+bones/23/rotation = Quaternion(0.24741289, 0.9457945, 0.20344117, 0.05358403)
+bones/24/rotation = Quaternion(-0.00013561362, -7.407922e-05, 4.8046328e-05, 1)
+bones/25/rotation = Quaternion(0.00024752232, 8.088589e-05, -0.0005354917, 0.9999998)
+bones/26/rotation = Quaternion(-0.63101524, 0.32756054, 0.34815237, 0.6109941)
+bones/27/rotation = Quaternion(0.09453366, -0.7006799, 0.09205595, 0.7011682)
+bones/28/rotation = Quaternion(0.10580737, 0.97149056, -0.1867249, 0.10072137)
+bones/29/rotation = Quaternion(-0.16785619, 0.17538042, -0.06604067, 0.96783507)
+bones/30/rotation = Quaternion(0.4451907, -0.5493689, 0.445194, 0.5493645)
+bones/31/rotation = Quaternion(0.62334144, 3.0863131e-07, -1.6414884e-07, 0.78194976)
+bones/32/rotation = Quaternion(0.62334144, 1.7865376e-07, 1.286308e-07, 0.78194976)
+bones/33/rotation = Quaternion(0.43208992, -0.53869975, 0.45804653, 0.559727)
+bones/34/rotation = Quaternion(0.62334085, -0.0009435434, -0.001183436, 0.7819488)
+bones/35/rotation = Quaternion(0.6233415, 0.00070423813, 0.0008833389, 0.781949)
+bones/36/rotation = Quaternion(0.5040571, -0.51154137, 0.43515158, 0.5430423)
+bones/37/rotation = Quaternion(0.6231626, 0.020061344, -0.014925358, 0.78169245)
+bones/38/rotation = Quaternion(0.62334216, -0.0003803427, -0.00047641908, 0.78194904)
+bones/39/rotation = Quaternion(0.43533996, -0.5413559, 0.45490396, 0.5572031)
+bones/40/rotation = Quaternion(0.62334126, -7.1194845e-06, -9.602079e-06, 0.78194994)
+bones/41/rotation = Quaternion(0.6233414, 0.0006652357, 0.00083455414, 0.7819491)
+bones/42/rotation = Quaternion(-0.2908385, 0.94964916, 0.114583746, -0.021217091)
+bones/43/rotation = Quaternion(0.21939026, -0.023802629, 0.0053050355, 0.9753323)
+bones/44/rotation = Quaternion(0.6873883, 0.00030907048, 0.00044446997, 0.72629)
+bones/45/rotation = Quaternion(0.9392453, 0.2326134, -0.02868062, 0.25077266)
+bones/46/rotation = Quaternion(0.5860299, 0.0365033, -0.026213944, 0.80904216)
+bones/47/rotation = Quaternion(-0.80843323, 0.05718792, 0.18678017, 0.55522835)
+bones/48/rotation = Quaternion(-0.00016931712, 0.9450548, -0.3269116, -0.00048944785)
+bones/49/rotation = Quaternion(0.79045534, -0.16328308, 0.020132309, 0.5900117)
+bones/50/rotation = Quaternion(0.6216473, 0.18843557, -0.15655039, 0.7440018)
+bones/51/rotation = Quaternion(-0.5358321, -0.14113115, -0.075292915, 0.8290337)
+bones/52/rotation = Quaternion(-0.00013714086, 0.9643068, -0.26478708, -0.0004994242)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D" index="1" unique_id=117251926]
+transform = Transform3D(-0.22554225, -0.96158063, 0.15650296, -0.83833516, 0.2733974, 0.4716434, -0.4963106, -0.024826482, -0.86778975, -0.6673058, 1.4053581, -0.044434886)
+bone_name = "DEF-hand.R"
+bone_idx = 29
+
+[node name="Root Scene" parent="Head/AnimationLibrary_Godot_Standard/Rig/Skeleton3D/BoneAttachment3D" unique_id=2112245146 instance=ExtResource("4_npwbq")]
+transform = Transform3D(0.56823575, -0.16838506, -0.5373589, -0.5420715, 0.043221388, -0.58676296, 0.15253451, 0.7808832, -0.08339615, -0.019506931, 0.07513332, 0.0090069175)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=447432846]
 replication_config = SubResource("SceneReplicationConfig_wr5hl")
@@ -67,89 +130,8 @@ text = "Peer ID"
 font_size = 24
 outline_size = 6
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1190293794]
+[node name="Player_UI" parent="." unique_id=1188246629 instance=ExtResource("3_tpg5x")]
 unique_name_in_owner = true
-
-[node name="Menu" type="Control" parent="CanvasLayer" unique_id=68847478]
-unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Menu" unique_id=28982625]
-layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu/PanelContainer" unique_id=763618636]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu/PanelContainer/MarginContainer" unique_id=1136748676]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=1932282086]
-layout_mode = 2
-
-[node name="LabelSession" type="Label" parent="CanvasLayer/Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=536262590]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ButtonCopySession" type="Button" parent="CanvasLayer/Menu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=367801452]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/icon_max_width = 24
-icon = ExtResource("2_gfjak")
-
-[node name="ButtonLeave" type="Button" parent="CanvasLayer/Menu/PanelContainer/MarginContainer/VBoxContainer" unique_id=196040560]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Leave Game"
-
-[node name="Reticle" type="Panel" parent="CanvasLayer" unique_id=1077284790]
-custom_minimum_size = Vector2(5, 5)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -2.5
-offset_top = -2.5
-offset_right = 2.5
-offset_bottom = 2.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gfjak")
-
-[node name="HitMarker" type="Label" parent="CanvasLayer" unique_id=1391413418]
-unique_name_in_owner = true
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.5, 1)
-pivot_offset_ratio = Vector2(0.5, 0)
-text = "X"
-horizontal_alignment = 1
-
-[node name="TopLeft" type="MarginContainer" parent="CanvasLayer" unique_id=705056818]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="SoundHit" type="AudioStreamPlayer" parent="." unique_id=625036051]
 unique_name_in_owner = true
@@ -158,3 +140,9 @@ stream = ExtResource("3_524rm")
 [node name="SoundPing" type="AudioStreamPlayer" parent="." unique_id=1437128364]
 unique_name_in_owner = true
 stream = ExtResource("4_tpg5x")
+
+[editable path="Head/Camera3D/ArmsRoot"]
+[editable path="Head/Camera3D/ArmsRoot/RightArm/arm_model"]
+[editable path="Head/Camera3D/ArmsRoot/LeftArm/arm_model"]
+[editable path="Head/Camera3D/ArmsRoot/Weapon/Root Scene"]
+[editable path="Head/AnimationLibrary_Godot_Standard"]

@@ -11,16 +11,19 @@ const JUMP_VELOCITY = 4.5
 @onready var head: Node3D = %Head
 @onready var nameplate: Label3D = %Nameplate
 
-@onready var menu: Control = %Menu
-@onready var button_leave: Button = %ButtonLeave
-@onready var label_session: Label = %LabelSession
-@onready var button_copy_session: Button = %ButtonCopySession
-
-@onready var canvas_layer: CanvasLayer = %CanvasLayer
-@onready var hit_marker: Label = %HitMarker
-
 @onready var sound_hit: AudioStreamPlayer = %SoundHit
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
+@onready var player_ui: PlayerUI = %Player_UI
+
+@onready var animation_library_godot_standard: Node3D = %AnimationLibrary_Godot_Standard
+@export var animation_player: AnimationPlayer 
+@export var player_mesh: MeshInstance3D
+
+@onready var arms_root: Node3D = %ArmsRoot
+@export var weapon_animation_player: AnimationPlayer 
+@export var hurt_box: HurtBox
+@export var arm_mesh_right: MeshInstance3D
+@export var arm_mesh_left: MeshInstance3D
 
 var immobile := false
 
@@ -28,25 +31,32 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
 
 func _ready():
-	menu.hide()
 	add_to_group("Players")
 	nameplate.text = name
-	hit_marker.hide()
-	
+	animation_player.playback_default_blend_time = 0.2
+	arms_root.hide()
+	replicate_color_changed(player_ui.COLORS[0])
+	player_ui.hide()
+
 	if not is_multiplayer_authority():
 		set_process(false)
 		set_physics_process(false)
-		canvas_layer.hide()
 		return
 	
-	if Global.username: nameplate.text = Global.username
+	ready_client_visuals()
+
+func ready_client_visuals():
+	player_ui.show()
+	arms_root.show()
+	weapon_animation_player.playback_default_blend_time = 0.2
+	weapon_animation_player.speed_scale = 0.7
 	
-	label_session.text = Network.tube_client.session_id
+	player_ui.option_button_color.item_selected.connect(on_color_changed)
+	animation_library_godot_standard.hide()
+	if Global.username: 
+		nameplate.text = Global.username
 	camera_3d.current = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	button_leave.pressed.connect(func(): Network.leave_server())
-	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
-	DisplayServer.clipboard_set(Network.tube_client.session_id)
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:
@@ -59,7 +69,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed('menu'):
-		open_menu(menu.visible)
+		open_menu(player_ui.menu.visible)
 		
 	if immobile:
 		return
@@ -67,12 +77,20 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed('shoot'):
 		shoot()	
 
-func open_menu(current_visibility: bool):
-	menu.visible = !current_visibility
+	if Input.is_action_just_pressed("attack1"):
+		attack(1)
+		
+	if Input.is_action_just_pressed("attack2"):
+		attack(2)
 	
-	immobile = menu.visible
 
-	if menu.visible:
+func open_menu(current_visibility: bool):
+	player_ui.menu.visible = !current_visibility
+	player_ui.controls_root.visible = current_visibility
+	
+	immobile = player_ui.menu.visible
+
+	if player_ui.menu.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -102,6 +120,22 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	handle_animations(direction)
+
+var one_shots: Array[String] = ["Sword_Attack"]
+
+func handle_animations(direction: Vector3):
+	if animation_player.current_animation in one_shots:
+		return
+
+	if velocity.y == 0.0:
+		if direction.x != 0.0 or direction.y != 0.0:
+			animation_player.play("Jog_Fwd")
+		else: 
+			animation_player.play("Idle")
+	else:
+		animation_player.play("Jump")
+
 	
 func shoot():
 	var force = 100
@@ -122,6 +156,35 @@ func register_hit(is_dead = false):
 	else:
 		sound_hit.play()
 	
-	hit_marker.show()
+	player_ui.hit_marker.show()
 	await get_tree().create_timer(0.2).timeout
-	hit_marker.hide()
+	player_ui.hit_marker.hide()
+	
+func on_color_changed(new_item: int):
+	replicate_color_changed.rpc(player_ui.COLORS[new_item])	
+
+@rpc("authority", "call_local")
+func replicate_color_changed(new_color: Color):
+	var material: StandardMaterial3D = player_mesh.get_active_material(0)
+	var new_material = material.duplicate()
+	new_material.albedo_color = new_color
+	player_mesh.set_surface_override_material(0, new_material)
+	arm_mesh_left.set_surface_override_material(0, new_material)
+	arm_mesh_right.set_surface_override_material(0, new_material)
+
+func attack(version: int):
+	if weapon_animation_player.current_animation.begins_with("arm_model_animations/swing"):
+		return
+	
+	if version == 1:
+		hurt_box.current_damage = 25
+	elif version == 2:
+		hurt_box.current_damage = 50
+	hurt_box.bodies_hit.clear()
+	
+	animation_player.stop()
+	animation_player.play("Sword_Attack")
+	weapon_animation_player.play("arm_model_animations/swing_0" + str(version))
+	await weapon_animation_player.animation_finished
+	weapon_animation_player.play("arm_model_animations/idle")
+	
