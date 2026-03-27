@@ -56,8 +56,11 @@ func on_create_tube():
 	add_world()
 
 func update_session(new_text: String):
-	if new_text != '':
-		button_join_tube.disabled = false
+	button_join_tube.disabled = new_text == ""
+	var caret_pos: int = line_edit_session.caret_column
+	line_edit_session.text = new_text.to_upper()
+	line_edit_session.caret_column = caret_pos
+	
 
 func update_username(new_text: String):
 	Global.username = new_text
