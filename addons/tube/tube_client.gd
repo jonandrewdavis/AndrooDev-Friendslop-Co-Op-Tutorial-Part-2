@@ -630,6 +630,7 @@ func _initiate_peer(p_peer_id: int) -> TubePeer:
 	var peer := TubePeer.new(p_peer_id)
 	peer.signaling_timeout_time = peer_signaling_timeout
 	peer.signaling_max_attempts = peer_signaling_max_attempts
+	
 	var error := peer.initialize(
 		context.get_ice_servers()
 	)
