@@ -4,11 +4,13 @@ class_name Player
 
 @export var sensitivity: float = 0.002
 
-const SPEED = 5.0
-const DECELERATION = .1
-const JUMP_VELOCITY = 4.5
+@export var max_speed = 6.0
+@export var acc = 5.0
+@export var strafe_speed = 4.5
 
-@export var LOOK_SPEED = .01
+@export var look_speed = .01
+@export var dec = .1
+@export var reverse_acc_mod = .5
 
 @onready var camera_3d: Camera3D = %Camera3D
 @onready var head: Node3D = %Head
@@ -26,7 +28,7 @@ const JUMP_VELOCITY = 4.5
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
 
 var immobile := false
-
+var flapping := false
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
@@ -74,8 +76,8 @@ func _process(_delta: float) -> void:
 	var look_vector = Input.get_vector("lookleft","lookright","lookdown","lookup")
 
 	if look_vector.length() > 0:
-		head.rotate_y(look_vector.x*LOOK_SPEED)	
-		camera_3d.rotate_x(look_vector.y*LOOK_SPEED)
+		head.rotate_y(look_vector.x*look_speed)	
+		camera_3d.rotate_x(look_vector.y*look_speed)
 		camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 
@@ -96,15 +98,22 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = strafe_speed
 
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
-	var direction := (camera_3d.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_y := Input.get_axis("down","up");
+	if input_dir.x != 0 or input_y != 0:
+		input_dir.y = 0
+	var direction := (camera_3d.global_transform.basis * Vector3(input_dir.x, input_y, input_dir.y)).normalized()
 
-	if Input.is_action_just_pressed("forward") or Input.is_action_just_pressed("backward"):
-		velocity = direction*SPEED
-	else:
-		velocity = velocity.normalized() * max((velocity.length() - DECELERATION),0)
+	var moveDir = direction
+	
+	if Input.is_action_just_pressed("forward"):
+		flap_tail(direction)
+	elif Input.is_action_just_pressed("backward"):
+		flap_tail(direction*reverse_acc_mod)
+	elif !flapping:
+		velocity = velocity.normalized() * max((velocity.length() - dec),0)
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
@@ -126,6 +135,16 @@ func get_shoot_direction():
 	var raycast_start = camera_3d.project_ray_origin(viewport_rect / 2)
 	var raycast_end = raycast_start + camera_3d.project_ray_normal(viewport_rect / 2) * 200
 	return -(raycast_start - raycast_end).normalized()
+
+func flap_tail(direction):
+	flapping = true
+	var accAmt = acc
+	while accAmt > 0:
+		velocity += direction*.75
+		accAmt -= .75
+		await get_tree().physics_frame
+	flapping = false
+
 
 @rpc("any_peer", 'call_local')
 func register_hit(is_dead = false):

@@ -36,6 +36,10 @@ corner_radius_bottom_left = 5
 collision_layer = 9
 motion_mode = 1
 script = ExtResource("1_wr5hl")
+max_speed = 3.0
+acc = 6.0
+look_speed = 0.03
+dec = 0.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789704607]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
