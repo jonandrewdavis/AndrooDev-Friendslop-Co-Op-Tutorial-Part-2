@@ -34,6 +34,7 @@ corner_radius_bottom_left = 5
 
 [node name="Player" type="CharacterBody3D" unique_id=1582534974]
 collision_layer = 9
+motion_mode = 1
 script = ExtResource("1_wr5hl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789704607]

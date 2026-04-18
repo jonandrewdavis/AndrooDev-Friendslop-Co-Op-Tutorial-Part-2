@@ -5,7 +5,10 @@ class_name Player
 @export var sensitivity: float = 0.002
 
 const SPEED = 5.0
+const DECELERATION = .1
 const JUMP_VELOCITY = 4.5
+
+@export var LOOK_SPEED = .01
 
 @onready var camera_3d: Camera3D = %Camera3D
 @onready var head: Node3D = %Head
@@ -23,6 +26,7 @@ const JUMP_VELOCITY = 4.5
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
 
 var immobile := false
+
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
@@ -43,7 +47,7 @@ func _ready():
 	
 	label_session.text = Network.tube_client.session_id
 	camera_3d.current = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	button_leave.pressed.connect(func(): Network.leave_server())
 	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
 	DisplayServer.clipboard_set(Network.tube_client.session_id)
@@ -51,11 +55,14 @@ func _ready():
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:
 		return
+		
 	
 	if event is InputEventMouseMotion:
 		head.rotate_y(-event.relative.x * sensitivity)	
 		camera_3d.rotate_x(-event.relative.y * sensitivity)
 		camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
+
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed('menu'):
@@ -63,9 +70,14 @@ func _process(_delta: float) -> void:
 		
 	if immobile:
 		return
+		
+	var look_vector = Input.get_vector("lookleft","lookright","lookdown","lookup")
 
-	if Input.is_action_just_pressed('shoot'):
-		shoot()	
+	if look_vector.length() > 0:
+		head.rotate_y(look_vector.x*LOOK_SPEED)	
+		camera_3d.rotate_x(look_vector.y*LOOK_SPEED)
+		camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
 
 func open_menu(current_visibility: bool):
 	menu.visible = !current_visibility
@@ -79,27 +91,27 @@ func open_menu(current_visibility: bool):
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	#if not is_on_floor():
+		#velocity += get_gravity() * delta
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
+	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	var direction := (camera_3d.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+	if Input.is_action_just_pressed("forward") or Input.is_action_just_pressed("backward"):
+		velocity = direction*SPEED
+	else:
+		velocity = velocity.normalized() * max((velocity.length() - DECELERATION),0)
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
-	var direction := (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	
 	if immobile:
 		direction = Vector3.ZERO
 
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
 	
