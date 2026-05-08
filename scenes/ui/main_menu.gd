@@ -8,6 +8,7 @@ extends CanvasLayer
 @onready var button_join_tube: Button = %ButtonJoinTube
 @onready var button_quit_tube: Button = %ButtonQuitTube
 @onready var button_create_tube: Button = %ButtonCreateTube
+@onready var toggle_turn: CheckButton = %ToggleTurn
 
 @onready var enet_menu: VBoxContainer = %EnetMenu
 @onready var tube_menu: VBoxContainer = %TubeMenu
@@ -33,6 +34,9 @@ func _ready() -> void:
 	
 	Network.tube_client.error_raised.connect(on_error_raised)
 
+	toggle_turn.set_pressed(Network.turn_enabled)
+	toggle_turn.toggled.connect(func(new_value): Network.turn_enabled = new_value)
+
 	if OS.has_feature('server'):
 		Network.start_server()
 		await get_tree().create_timer(0.1).timeout
@@ -56,8 +60,11 @@ func on_create_tube():
 	add_world()
 
 func update_session(new_text: String):
-	if new_text != '':
-		button_join_tube.disabled = false
+	button_join_tube.disabled = new_text ==  ""
+	var caret_pos: int = line_edit_session.caret_column
+	line_edit_session.text = new_text.to_upper()
+	line_edit_session.caret_column = caret_pos
+
 
 func update_username(new_text: String):
 	Global.username = new_text

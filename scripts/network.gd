@@ -5,15 +5,23 @@ const TUBE_CONTEXT = preload("uid://chqw3jdoon6c1")
 
 var enet_peer := ENetMultiplayerPeer.new()
 var tube_client := TubeClient.new()
-var tube_enabled = true
+var tube_enabled := true
+var turn_enabled := false : set = set_turn_enabled
+
+var new_offline := OfflineMultiplayerPeer.new()
+var new_http_client := HTTPRequest.new()
 
 var PORT = 9999
 var IP_ADDRESS = '127.0.0.1'
 
 func _ready() -> void:
+	new_http_client.request_completed.connect(_on_request_completed)
+	get_tree().root.add_child.call_deferred(new_http_client)
+
 	if tube_enabled:
 		tube_client.context = TUBE_CONTEXT
 		get_tree().root.add_child.call_deferred(tube_client)
+
 
 func tube_create():
 	multiplayer.peer_connected.connect(add_player)
@@ -83,3 +91,21 @@ func clean_up_signals():
 func _exit_tree() -> void:
 	if tube_enabled:
 		tube_client.leave_session()
+
+var temp_ice: Dictionary
+
+func _on_request_completed(_result, _response_code, _headers, body):
+	var response: Dictionary = JSON.parse_string(body.get_string_from_utf8())
+
+	if response and response.has("iceServers"):
+		temp_ice = response["iceServers"][1]
+		tube_client.context.turn_servers.append(temp_ice)
+		prints("DEBUG", tube_client.context.turn_servers)
+
+func set_turn_enabled(is_enabled: bool):
+	if is_enabled and temp_ice:
+		tube_client.context.turn_servers.append(temp_ice)
+	elif is_enabled:
+		new_http_client.request("https://api.androodev.com/turn")
+	else:
+		tube_client.context.turn_servers = []
