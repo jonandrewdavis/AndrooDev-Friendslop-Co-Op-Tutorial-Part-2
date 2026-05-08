@@ -22,6 +22,8 @@ const JUMP_VELOCITY = 4.5
 @onready var sound_hit: AudioStreamPlayer = %SoundHit
 @onready var sound_ping: AudioStreamPlayer = %SoundPing
 
+@onready var session_code_large: Label = %SessionCodeLarge
+
 var immobile := false
 
 func _enter_tree() -> void:
@@ -47,7 +49,9 @@ func _ready():
 	button_leave.pressed.connect(func(): Network.leave_server())
 	button_copy_session.pressed.connect(func(): DisplayServer.clipboard_set(Network.tube_client.session_id))
 	DisplayServer.clipboard_set(Network.tube_client.session_id)
-
+	session_code_large.add_theme_font_size_override("font_size", 24)
+	session_code_large.text = "Session ID: " + Network.tube_client.session_id
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority() or immobile:
 		return

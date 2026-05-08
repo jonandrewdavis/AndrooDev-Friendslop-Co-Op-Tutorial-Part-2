@@ -70,6 +70,26 @@ outline_size = 6
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1190293794]
 unique_name_in_owner = true
 
+[node name="SessionCodeContainer" type="PanelContainer" parent="CanvasLayer" unique_id=262769891]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SessionCodeContainer" unique_id=1013745010]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SessionCodeLarge" type="Label" parent="CanvasLayer/SessionCodeContainer/MarginContainer" unique_id=377668462]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Menu" type="Control" parent="CanvasLayer" unique_id=68847478]
 unique_name_in_owner = true
 layout_mode = 3
