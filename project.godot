@@ -23,7 +23,8 @@ Global="*uid://d1r3eqtrbojy0"
 
 [display]
 
-window/size/always_on_top=true
+window/size/viewport_width=1728
+window/size/viewport_height=972
 
 [editor_plugins]
 

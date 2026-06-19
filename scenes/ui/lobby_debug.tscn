@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b70gg2vj1d0jc"]
+
+[ext_resource type="PackedScene" uid="uid://dujkendqt6ls1" path="res://addons/tube/tube_inspector.tscn" id="1_e5mfy"]
+[ext_resource type="Script" uid="uid://cy006uvidc4y" path="res://addons/tube/tube_client.gd" id="2_7thtj"]
+[ext_resource type="Resource" uid="uid://chqw3jdoon6c1" path="res://scripts/tube_context.tres" id="3_jdjfj"]
+
+[node name="LobbyDebug" type="Node" unique_id=672037807]
+
+[node name="TubeInspector" parent="." unique_id=1004153681 node_paths=PackedStringArray("client") instance=ExtResource("1_e5mfy")]
+offset_bottom = 1069.0
+client = NodePath("../TubeClient")
+
+[node name="TubeClient" type="Node" parent="." unique_id=474469033 node_paths=PackedStringArray("multiplayer_root_node")]
+script = ExtResource("2_7thtj")
+context = ExtResource("3_jdjfj")
+multiplayer_root_node = NodePath("..")
+metadata/_custom_type_script = "uid://cy006uvidc4y"
