@@ -121,3 +121,10 @@ The host and joiners will all need to have it on."
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 14
 text = "TURN Relay:"
+
+[node name="LabelMatchmaking" type="Label" parent="Control/Center/MarginContainer/HBoxContainer/TubeMenu" unique_id=2002179103]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.36862746, 1)
+text = "Waiting for matchmaking ..."

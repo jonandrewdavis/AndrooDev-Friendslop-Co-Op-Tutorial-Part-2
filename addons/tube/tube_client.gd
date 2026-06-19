@@ -185,7 +185,7 @@ func _ready() -> void:
 
 ## Creates a new multiplayer session.
 ## Emits [signal session_created] if successful, or [signal error_raised] with [code]SessionError.CREATE_SESSION_FAILED[/code] if failed.
-func create_session() -> void:
+func create_session(custom_session_id: String) -> void:
 	if not is_inside_tree():
 		_session_initiated.emit()
 		_raise_error(SessionError.CREATE_SESSION_FAILED, "Session creation failed, client is not inside tree")
@@ -207,7 +207,11 @@ func create_session() -> void:
 		return
 	
 	state = State.CREATING_SESSION
-	session_id = context.generate_session_id()
+	if custom_session_id:
+		session_id = custom_session_id
+	else:
+		session_id = context.generate_session_id()
+
 	peer_id = _SERVER_PEER_ID
 	refuse_new_connections = false
 	_session_initiated.emit()

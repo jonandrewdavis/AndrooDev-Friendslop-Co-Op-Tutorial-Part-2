@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var button_quit_tube: Button = %ButtonQuitTube
 @onready var button_create_tube: Button = %ButtonCreateTube
 @onready var toggle_turn: CheckButton = %ToggleTurn
+@onready var label_matchmaking: Label = %LabelMatchmaking
 
 @onready var enet_menu: VBoxContainer = %EnetMenu
 @onready var tube_menu: VBoxContainer = %TubeMenu
@@ -21,6 +22,10 @@ func _ready() -> void:
 		enet_menu.hide()
 	else:
 		tube_menu.hide()
+
+	if Network.matchmaking:
+		Network.signal_matchmaking_wait.connect(func(): label_matchmaking.show())
+		Network.tube_client._session_initiated.connect(func(): add_world())
 
 	button_join.pressed.connect(on_join)
 	button_quit.pressed.connect(func(): get_tree().quit())

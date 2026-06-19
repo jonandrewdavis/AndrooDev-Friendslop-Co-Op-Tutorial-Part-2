@@ -123,7 +123,7 @@ func generate_session_id() -> String:
 
 ## Validates if a session ID is correct
 func is_session_id_valid(p_session_id: String) -> bool:
-	return 5 == p_session_id.length()
+	return 8 == p_session_id.length()
 
 
 ## Validates if a peer ID hash is numeric and valid.
