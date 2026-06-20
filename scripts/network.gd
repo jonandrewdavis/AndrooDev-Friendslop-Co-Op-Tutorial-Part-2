@@ -19,9 +19,15 @@ signal signal_matchmaking_wait
 signal signal_matchmaking_error
 
 var matchmaking_websocket := WebSocketPeer.new()
-var matchmaking_websocket_url := "wss://api.androodev.com/websocket"
-#var matchmaking_websocket_url := "ws://localhost:8787/websocket"
-var matchmaking = true
+#var matchmaking_websocket_url := "wss://api.androodev.com/websocket"
+var matchmaking_websocket_url := "ws://localhost:8787/websocket"
+var turn_api_url := "https://api.androodev.com/turn"
+var matchmaking = false
+var connect_counter = 0
+
+
+# TODO: Allow scrape to ask for session_id length of 5 or 8 (settable in TubeClient)
+
 
 func _ready() -> void:
 	set_process(false)
@@ -29,13 +35,12 @@ func _ready() -> void:
 	new_http_client.request_completed.connect(_on_request_completed)
 	get_tree().root.add_child.call_deferred(new_http_client)
 
-
 	if tube_enabled:
 		tube_client.context = TUBE_CONTEXT
 		get_tree().root.add_child.call_deferred(tube_client)
 
 	await get_tree().process_frame
-	new_http_client.request("https://api.androodev.com/turn")
+	new_http_client.request(turn_api_url)
 	await new_http_client.request_completed
 	if matchmaking:
 		tube_client._peer_initiated.connect(func(_peer): close_matchmaking_websocket())
@@ -120,13 +125,16 @@ func _on_request_completed(_result, _response_code, _headers, body):
 		temp_ice = response["iceServers"][1]
 		tube_client.context.turn_servers.append(temp_ice)
 		prints("DEBUG", tube_client.context.turn_servers)
+	else:
+		prints("DEBUG", response)
+
 
 func set_turn_enabled(is_enabled: bool):
 	tube_client.context.turn_servers.clear()
 	if is_enabled and temp_ice:
 		tube_client.context.turn_servers.append(temp_ice)
 	elif is_enabled:
-		new_http_client.request("https://api.androodev.com/turn")
+		new_http_client.request(turn_api_url)
 
 
 func delist_session(_id: int) -> void:
@@ -188,7 +196,8 @@ func parse_packet(body: PackedByteArray) -> void:
 	match response.action:
 		'connect':
 			# NOTE: Not sent from the server
-			# TODO: Can the server send this upon peer connect? 
+			# WS Connecting state is the confirmation
+			# Matchmaking happens immediately			
 			pass
 		'wait':
 			signal_matchmaking_wait.emit()
@@ -212,8 +221,10 @@ func handle_join_matchmaking(lobby_payload: Dictionary) -> void:
 
 # TODO: Expontential backoff
 func _restart_matchmaking() -> void:
+	connect_counter = connect_counter + 1
+	print("DEBUG: Matchmaking restarting ...")
 	close_matchmaking_websocket()
 	clean_up_signals()
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.0 * connect_counter).timeout
 	get_tree().reload_current_scene()
 	#connect_to_matchmaking()

@@ -6,8 +6,9 @@
 
 [node name="LobbyDebug" type="Node" unique_id=672037807]
 
-[node name="TubeInspector" parent="." unique_id=1004153681 node_paths=PackedStringArray("client") instance=ExtResource("1_e5mfy")]
-offset_bottom = 1069.0
+[node name="TubeInspector" parent="." unique_id=370426784 node_paths=PackedStringArray("client") instance=ExtResource("1_e5mfy")]
+offset_right = 576.0
+offset_bottom = 694.0
 client = NodePath("../TubeClient")
 
 [node name="TubeClient" type="Node" parent="." unique_id=474469033 node_paths=PackedStringArray("multiplayer_root_node")]

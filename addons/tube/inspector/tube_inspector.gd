@@ -41,6 +41,9 @@ const SIGNALING_COLORS := {
 				client.session_left.disconnect(
 					_on_client_session_left
 				)
+				client.lobbies_received.disconnect(
+					_on_client_lobbies_received
+				)
 				client.peer_refused.disconnect(
 					_on_client_peer_refused
 				)
@@ -89,6 +92,9 @@ const SIGNALING_COLORS := {
 				)
 				x.session_left.connect(
 					_on_client_session_left
+				)
+				x.lobbies_received.connect(
+					_on_client_lobbies_received
 				)
 				x.peer_refused.connect(
 					_on_client_peer_refused
@@ -297,11 +303,27 @@ func add_peer(peer: TubePeer):
 
 func _on_header_button_pressed() -> void:
 	client_control.show()
+	prepare_scrape_timer()
 	if not messages_container.is_displaying_from(self):
 		messages_container.display_messages(
 			message_item_controls,
 			self
 		)
+
+var scrape_timer = Timer.new()
+
+func prepare_scrape_timer():
+	scrape_timer.timeout.connect(perform_scrape)
+	scrape_timer.autostart = true
+	scrape_timer.wait_time = 10.0
+	scrape_timer.one_shot = false
+	get_tree().current_scene.add_child.call_deferred(scrape_timer)
+
+func perform_scrape():
+	if not is_instance_valid(client):
+		return
+
+	client.perform_scrape()
 
 
 func _on_join_button_pressed() -> void:
@@ -315,8 +337,58 @@ func _on_join_button_pressed() -> void:
 func _on_create_button_pressed() -> void:
 	if not is_instance_valid(client):
 		return
-	
+
 	client.create_session()
+
+
+# Throwaway tracker used by the "List" button to scrape lobbies without joining
+# a session (the client only owns trackers while in a session).
+var _scrape_tracker: TubeTracker
+
+
+func _on_list_button_pressed() -> void:
+	if not is_instance_valid(client) or null == client.context:
+		push_warning("List: no client or context")
+		return
+
+	if client.context.trackers_urls.is_empty():
+		push_warning("List: no tracker url configured")
+		return
+
+	# Open a throwaway connection to the tracker just to scrape the lobby list.
+	var tracker := TubeTracker.new()
+	var url: String = client.context.trackers_urls[0]
+	if tracker.connect_to_url(url):
+		push_warning("List: cannot connect to tracker {url}".format({ "url": url }))
+		return
+
+	tracker.connected.connect(_on_scrape_tracker_connected)
+	tracker.received_scrape.connect(_on_scrape_tracker_lobbies)
+	_scrape_tracker = tracker
+
+
+func _on_scrape_tracker_connected() -> void:
+	if _scrape_tracker:
+		_scrape_tracker.send_scrape()
+
+
+func _on_scrape_tracker_lobbies(lobbies: Dictionary) -> void:
+	prints("Lobbies:", lobbies)
+	for app_id in lobbies:
+		prints("  app_id", app_id, "->", lobbies[app_id])
+
+	# Done; dropping the only reference frees it and closes the socket.
+	_scrape_tracker = null
+
+
+func _process(_delta: float) -> void:
+	if null == _scrape_tracker:
+		return
+
+	# TubeTracker is a RefCounted, so it must be pumped to poll its socket.
+	_scrape_tracker._process(_delta)
+	if null != _scrape_tracker and _scrape_tracker.is_close():
+		_scrape_tracker = null
 
 
 func _on_refuse_new_button_toggled(toggled_on: bool) -> void:
@@ -328,9 +400,6 @@ func _on_close_button_pressed() -> void:
 		return
 	
 	client.leave_session()
-
-
-# 
 
 
 func _on_client_error_raised(code: int, message: String):
@@ -381,6 +450,17 @@ func _on_client_session_left():
 	switch_to_idle_config()
 	add_message_item_control("Leave session {id}".format({
 		"id": client.session_id
+	}))
+
+
+func _on_client_lobbies_received(lobbies: Dictionary):
+	var session_count := 0
+	for app_id in lobbies:
+		session_count += lobbies[app_id].size()
+
+	add_message_item_control("Scrape: {apps} app(s), {sessions} lobby(s)".format({
+		"apps": lobbies.size(),
+		"sessions": session_count,
 	}))
 
 

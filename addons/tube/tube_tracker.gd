@@ -17,6 +17,7 @@ signal state_changed
 signal data_sent(data: Dictionary)
 signal received_data(data: Dictionary)
 
+signal received_scrape(lobbies: Dictionary)
 
 const CLOSE_CODE_CLIENT: int = 3001
 const CLOSE_CODE_FAILED: int = 3002
@@ -149,6 +150,21 @@ func send_announce(p_info_hash: String, p_peer_id_hash: String) -> Error:
 		"downloaded": 0,
 	})
 
+func send_scrape(p_app_id: String = "", p_info_hash: String = "") -> Error:
+	var data := { "action": "scrape" }
+	if p_app_id:
+		data["app_id"] = p_app_id
+	if p_info_hash:
+		data["info_hash"] = p_info_hash
+	return send_data(data)
+
+
+func perform_scrape(p_app_id: String = "", p_info_hash: String = "") -> void:
+	if not is_open():
+		return
+
+	send_scrape(p_app_id, p_info_hash)
+
 
 func send_answer(
 	p_info_hash: String,
@@ -195,7 +211,11 @@ func _received_packet(p_packet: PackedByteArray):
 	if data.has("answer"):
 		_handle_answer(data)
 		return
-	
+
+	if "scrape" == data.get("action"):
+		_handle_scrape(data)
+		return
+
 	_handle_announce(data)
 
 
@@ -210,6 +230,19 @@ func _handle_announce(p_data: Dictionary):
 	
 	interval_time = min(p_data.interval, MAX_INTERVAL)
 	interval_time_left = interval_time
+
+
+func _handle_scrape(p_data: Dictionary):
+	prints('SCRAPE: ', p_data)
+	if not p_data.has("lobbies"):
+		raise_warning("scrape data has no lobbies")
+		return
+
+	if not p_data.lobbies is Dictionary:
+		raise_warning("lobbies invalid data type")
+		return
+
+	received_scrape.emit(p_data.lobbies)
 
 
 func _handle_answer(p_data: Dictionary):

@@ -47,6 +47,7 @@ func _ready() -> void:
 		await get_tree().create_timer(0.1).timeout
 		add_world()
 
+
 func on_join():
 	Network.join_server()
 	add_world()

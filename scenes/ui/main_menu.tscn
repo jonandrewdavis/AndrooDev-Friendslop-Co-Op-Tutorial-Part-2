@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cyavwb4iw6rub" path="res://scenes/ui/main_menu.gd" id="1_sl1te"]
 [ext_resource type="Texture2D" uid="uid://b4o7vx0n8db1s" path="res://addons/tube/icons/tube_client.svg" id="2_fe2o3"]
+[ext_resource type="PackedScene" uid="uid://0anymeg5ohuk" path="res://scenes/ui/main_menu_lobby_list.tscn" id="3_1g8jr"]
 
 [node name="MainMenu" type="CanvasLayer" unique_id=1482325763]
 script = ExtResource("1_sl1te")
@@ -128,3 +129,7 @@ visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0.36862746, 1)
 text = "Waiting for matchmaking ..."
+
+[node name="LobbyList" parent="Control/Center/MarginContainer/HBoxContainer" unique_id=1561550487 instance=ExtResource("3_1g8jr")]
+unique_name_in_owner = true
+layout_mode = 2
