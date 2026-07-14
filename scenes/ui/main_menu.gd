@@ -80,3 +80,7 @@ func on_error_raised(_code, _message):
 	button_join_tube.add_theme_color_override('font_disabled_color', Color.DARK_RED)
 	button_join_tube.disabled = true
 	Network.clean_up_signals()
+
+
+func scrape():
+	Network.tube_client.perform_scrape()
