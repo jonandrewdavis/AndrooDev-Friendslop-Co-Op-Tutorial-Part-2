@@ -6,7 +6,7 @@ const TUBE_CONTEXT = preload("uid://chqw3jdoon6c1")
 var enet_peer := ENetMultiplayerPeer.new()
 var tube_client := TubeClient.new()
 var tube_enabled := true
-var turn_enabled := false : set = set_turn_enabled
+var turn_enabled := true : set = set_turn_enabled
 
 var new_offline := OfflineMultiplayerPeer.new()
 var new_http_client := HTTPRequest.new()
