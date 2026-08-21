@@ -69,12 +69,6 @@ const SIGNALING_COLORS := {
 				client._peer_initiated.disconnect(
 					_on_client_peer_initiated
 				)
-				client._upnp.port_mapped.disconnect(
-					_on_client_port_mapped
-				)
-				client._upnp.warning_raised.disconnect(
-					_on_client_upnp_warning_raised
-				)
 			
 			
 			if null != x:
@@ -117,12 +111,6 @@ const SIGNALING_COLORS := {
 				)
 				x._peer_initiated.connect(
 					_on_client_peer_initiated
-				)
-				x._upnp.port_mapped.connect(
-					_on_client_port_mapped
-				)
-				x._upnp.warning_raised.connect(
-					_on_client_upnp_warning_raised
 				)
 				
 				
@@ -449,14 +437,3 @@ func _on_client_peer_initiated(peer: TubePeer):
 		"peer_id": peer.id,
 	}))
 	update.call_deferred()
-
-
-func _on_client_port_mapped(public_port: int, local_port: int):
-	add_message_item_control("Port {port} mapped to internal port {internal_port}".format({
-		"port": public_port,
-		"internal_port": local_port
-	}))
-
-
-func _on_client_upnp_warning_raised(message: String):
-	add_message_item_control("Upnp: " + message).warning()

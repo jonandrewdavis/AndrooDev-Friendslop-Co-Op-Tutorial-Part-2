@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://bcibt73qths3g" path="res://addons/tube/inspector/theme.tres" id="1_kof4f"]
 [ext_resource type="Texture2D" uid="uid://pxj3b3e28fg3" path="res://addons/tube/inspector/icons/clipboard_icon.tres" id="2_kj7ih"]
 
-[node name="MessagesContainer" type="MarginContainer" unique_id=958294975]
+[node name="MessagesContainer" type="MarginContainer" unique_id=1249018184]
 custom_minimum_size = Vector2(0, 96)
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,23 +16,23 @@ grow_vertical = 2
 theme = ExtResource("1_kof4f")
 script = ExtResource("1_cbqc8")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1132459499]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=957556517]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=870777379]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1410609988]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=174232099]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=2021736621]
 layout_mode = 2
 theme_type_variation = &"LabelH3"
 text = "Messages"
 
-[node name="MessagesAmountLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=119628415]
+[node name="MessagesAmountLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=370439661]
 unique_name_in_owner = true
 layout_mode = 2
 text = "(last 100)"
 
-[node name="ClipboardButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=526378990]
+[node name="ClipboardButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=664908039]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -43,7 +43,7 @@ icon = ExtResource("2_kj7ih")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=852911105]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=38207190]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -52,7 +52,7 @@ follow_focus = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
 
-[node name="ListContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=984866657]
+[node name="ListContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=44691137]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

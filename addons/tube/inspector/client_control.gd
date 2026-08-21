@@ -16,24 +16,6 @@ const HOLE_PUNCHING_COMPLIANCE_COLOR: Dictionary[TubeNetworkDiagnosisPeer.Compli
 
 var client: TubeClient:
 	set(x):
-		if client != x:
-			if null != client:
-				
-				client._upnp.port_mapped.disconnect(
-					sucess_port_mapping
-				)
-				client._upnp.warning_raised.disconnect(
-					fail_port_mapping
-				)
-			
-			if null != x:
-				x._upnp.port_mapped.connect(
-					sucess_port_mapping
-					)
-				x._upnp.warning_raised.connect(
-					fail_port_mapping
-				)
-		
 		client = x
 		
 		if not is_instance_valid(client):
@@ -52,7 +34,6 @@ var client: TubeClient:
 			root_node_label.text = client.multiplayer_root_node.get_path()
 		
 		detect_nat()
-		detect_upnp_port_mapping()
 
 
 var network_diagnosis_peer := TubeNetworkDiagnosisPeer.new(4443)
@@ -62,7 +43,6 @@ var network_diagnosis_peer := TubeNetworkDiagnosisPeer.new(4443)
 @onready var app_id_label: Label = %AppIdLabel
 @onready var root_node_label: Label = %RootNodeLabel
 @onready var nat_detection_label: Label = %NATDetectionLabel
-@onready var upnp_port_mapping_label: Label = %UPNPPortMappingLabel
 
 
 func _ready() -> void:
@@ -109,34 +89,3 @@ func detect_nat():
 		return
 	
 	network_diagnosis_peer.start_nat_hole_punching_detection(client.context.stun_servers_urls)
-
-
-func _on_upnp_port_mapping_button_pressed() -> void:
-	detect_upnp_port_mapping()
-
-
-func detect_upnp_port_mapping():
-	if OS.get_name() == "Web":
-		if is_instance_valid(inspector):
-			inspector.add_message_item_control("Port mapping detection is not available on Web").warning()
-		return
-	
-	if not is_instance_valid(client):
-		inspector.add_message_item_control("Port mapping detection needs a tube client set on inspector").warning()
-		return
-	
-	var port := 4443
-	client._upnp.add_port_mapping(port, port)
-	client._upnp.delete_port_mapping(port)
-
-
-func sucess_port_mapping(public_port: int, local_port: int):
-	if is_instance_valid(upnp_port_mapping_label):
-		upnp_port_mapping_label.text = HOLE_PUNCHING_COMPLIANCE_TEXT[TubeNetworkDiagnosisPeer.Compliance.YES]
-		upnp_port_mapping_label.modulate = HOLE_PUNCHING_COMPLIANCE_COLOR[TubeNetworkDiagnosisPeer.Compliance.YES]
-
-
-func fail_port_mapping(message: String):
-	if is_instance_valid(upnp_port_mapping_label):
-		upnp_port_mapping_label.text = HOLE_PUNCHING_COMPLIANCE_TEXT[TubeNetworkDiagnosisPeer.Compliance.NO]
-		upnp_port_mapping_label.modulate = HOLE_PUNCHING_COMPLIANCE_COLOR[TubeNetworkDiagnosisPeer.Compliance.NO]

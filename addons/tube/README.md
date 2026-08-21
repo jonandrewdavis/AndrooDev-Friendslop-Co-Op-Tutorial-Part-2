@@ -31,7 +31,7 @@ Tube was developed and tested with Godot 4.5, and it may also work with other Go
 
 **Tube** uses WebRTC, as it, it works automatically on HTML5 export, but require an external GDExtension plugin on other platforms. You can find everything you need in the [webrtc-native plugin repository](https://github.com/godotengine/webrtc-native/releases).
 > [!WARNING]
-> No **specific** error message will appear if WebRTC implementation is missing. Make sure it’s set up correctly!
+> No **specific** error message on Desktop platforms will appear if WebRTC implementation is missing. Make sure it’s set up correctly!
 
 When exporting to Android, make sure to enable the `INTERNET` and `CHANGE_WIFI_MULTICAST_STATE` permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
 
@@ -55,11 +55,9 @@ Verify that the addon is activated in your godot project in `Project Settings ->
 First, create a new `TubeContext` for your project `in Godot FileSystem inspector -> Create New -> TubeContext`. And do the following :
 1. Enter a `App ID` in your `TubeContext`. App ID must be exactly 15 ASCII characters. You can generate one automatically by clicking `Generate App ID`. App ID must be the same on all instance of your game.
 
-> [!TIP]
-> If your game is only intended for local play, you can skip the following steps 2 and 3.
-For Web builds, however, steps 2 and 3 are mandatory, since local connections do not work on Web.
 
-2. Add `Trackers URLs` , you can use the following:
+2. Add `Trackers URLs` , you can use any or all of the following:
+    - wss://tracker.androodev.com
     - wss://tracker.openwebtorrent.com
     - wss://tracker.files.fm:7073/announce
     - wss://tracker.btorrent.xyz/
@@ -68,8 +66,6 @@ For Web builds, however, steps 2 and 3 are mandatory, since local connections do
 3. Add `Stun Servers URLs`, you can use the following:
     - stun:stun.l.google.com:19302
     - stun:stun.cloudflare.com:3478
-    - stun:stun.bethesda.net:3478
-
 
 #### 2. Adding a `TubeClient` to Your Scene
 
@@ -154,7 +150,7 @@ func transfer_some_input():
     # Process the input and affect game logic.
 ```
 
-To know more about how to configure and use it, you can look into the [demo project](https://github.com/koopmyers/pixelary)
+To know more about how to configure and use it, you can watch [AndrooDev's Friendslop Co-Op Tutorial Part 2: Peer to Peer](https://www.youtube.com/watch?v=wgIqB6JNcro) 
 
 ### Trouble shooting
 
@@ -164,33 +160,20 @@ To use it, add the scene located at `/addons/tube/tube_inspector.tscn` to your p
 > [!NOTE]  
 > Some features, such as latency display and chat, are only available if `TubeInspector` is part of the `MultiplayerAPI` scene tree.
 
-<img src="https://raw.githubusercontent.com/koopmyers/tube/refs/heads/main/screenshots/inspector2.png" alt="Tube inspector" width="200"/>
-<img src="https://raw.githubusercontent.com/koopmyers/tube/b47f12c37505baa57a5c89281d6d2fd9263c3cd4/screenshots/inspector.png" alt="Tube inspector" width="200"/>
+<p align="middle">
+    <img src="https://raw.githubusercontent.com/jonandrewdavis/tube/refs/heads/main/screenshots/inspector2.png" alt="Tube inspector" align="center" width="32%"/><img src="https://raw.githubusercontent.com/jonandrewdavis/tube/b47f12c37505baa57a5c89281d6d2fd9263c3cd4/screenshots/inspector.png" alt="Tube inspector" align="center" width="32%"/>
+</p>
 
 #### Major known issues
 
 The most common reason a player cannot connect is a **symmetric NAT**.  
-A symmetric NAT is a router configuration that prevents NAT hole punching. This means that if both peers are behind a symmetric NAT, the connection will likely fail.
+A symmetric NAT is a router configuration that prevents NAT hole punching. This means that if both peers are behind a symmetric NAT, the connection will likely fail. 
 
-You can check whether you are behind a symmetric NAT using the **NAT hole punching** field in `TubeInspector`. Multiple STUN servers with different addresses are required. If the result is `unknown`, try different STUN domains. This tool is not available on Web platform.
-You can also test here: [Symmetric NAT test](https://tomchen.github.io/symmetric-nat-test/), but note that false positives are common due to browser privacy behavior.
+You can check whether you are behind a symmetric NAT using the **NAT hole punching** field in `TubeInspector`. Multiple STUN servers with different addresses are required. If the result is `unknown`, try different STUN domains. This tool is not available on Web platform. You can also test here: [Symmetric NAT test](https://tomchen.github.io/symmetric-nat-test/), but note that false positives are common due to browser privacy behavior.
 
-Tube will attempt to map public ports via **UPnP**. Port mapping can help bypass symmetric NAT.  
-However, UPnP is not supported on all networks, commonly disabled on corporate, public, or VPN networks.
-You can verify UPnP support using the **UPnP port mapping** field in `TubeInspector`. Port mapping is not available on Web platform.
-If UPnP is available but connections still fail, the timeout may occur before the port opens. Try increasing the client's `peer_signaling_timeout` or `peer_signaling_max_attempts`.
-
-If both **NAT hole punching** and **UPnP port mapping** show `likely to fail` for two players, then a direct Internet connection is likely impossible without a relay server.  
-You can still use **Tube** with your own servers to ensure reliable connectivity.  See: [Using your own servers](#using-your-own-servers).
+If **NAT hole punching** shows `likely to fail` for two players, then a direct Internet connection is likely impossible without a relay server. You can easily add a TURN server.  See: [Using your own servers](#using-your-own-servers).
 
 #### Minor known issues
-
-> [!CAUTION]  
-> Class 'UPNPDeviceMiniUPNP' already exists
-
-This is a core Godot Engine issue caused by multithreading. There is currently no known way to fix or suppress it without modifying the engine itself.
-
-</br>
 
 > [!CAUTION]  
 > Invalid status code. Got 'XXX', expected 101.
@@ -212,7 +195,6 @@ Establishing a WebRTC connection requires an initial signaling phase, which depe
 
 For more details on WebRTC, visit the [Official WebRTC web site](https://webrtc.org) and the [WebRTC Godot documentation](https://docs.godotengine.org/en/stable/classes/class_webrtcpeerconnection.html)
 
-
 ### Local signaling
 
 On a local network, the server peer listens on determined port. When joining, other peers broadcast their signaling data across the network at destination of the server. Once signaling is complete, peers automatically switch to a WebRTC connection.
@@ -221,12 +203,13 @@ STUN and TURN servers are not needed in this mode.
 
 Because the Web platform cannot open listening ports, local signaling is unavailable on Web builds.
 
-
 ### Online signaling
 
-For Signaling servers, **Tube** use WebTorrent tracker servers as signaling servers. Several public trackers are available, such as those listed in [Configuration & Utilisation](#configuration--utilisation).
+For Signaling servers, **Tube** use WebTorrent tracker servers as signaling servers. Several public trackers are available, such as those listed in [Configuration & Utilisation](#configuration--utilisation). 
 
 It is recommended to use multiple trackers to improve connection reliability, as public trackers can occasionally be unstable.
+
+AndrooDev hosts a compatible public tracker at: `wss://tracker.androodev.com`. 
 
 To learn more about BitTorrent trackers and WebTorrent, see the [WebTorrent github](https://github.com/webtorrent/webtorrent) and the [Wikipedia BitTorrent Tracker page](https://en.wikipedia.org/wiki/BitTorrent_tracker).
 
@@ -236,7 +219,7 @@ Many public STUN servers are available, such as those provided by Google.
 You can find an updated list here: [Public STUN list](https://gist.github.com/mondain/b0ec1cf5f60ae726202e)
 
 Currently, there are no reliable public TURN servers.
-Without a TURN server, there is no fallback mechanism when peers cannot establish a direct connection, for example, if both peers are behind a *symmetric NAT*. To mitigate this, Tube attempts to open ports automatically using *UPnP port mapping*. However, this feature is not supported on the Web platform.
+Without a TURN server, there is no fallback mechanism when peers cannot establish a direct connection, for example, if both peers are behind a *symmetric NAT*.
 
 For maximum reliability, you can deploy your own TURN server and add it to your `TubeContext` configuration see [Using your own servers](#using-your-own-servers).
 
@@ -249,8 +232,11 @@ Make sure to configure it with WebSocket support, availbale on Internet and set 
 
 It is strongly recommended to use secure WebSockets (WSS/TLS) for to ensure reliable and encrypted communication and some browser will block non secure communication.
 
+Host your own TypeScript port on a Cloudflare worker via: https://github.com/jonandrewdavis/ws-tracker-server
+
 ### Turn server
-To improve connection reliability, you can host your own TURN server using [coturn](https://github.com/coturn/coturn) or [eturnal](https://github.com/processone/eturnal). They can also be used as STUN servers.
+
+Some restrictive connections like universities or VPNs will not connect. A relay can help. TURN is a way to relay traffic. you can host your own TURN server using [coturn](https://github.com/coturn/coturn) or [eturnal](https://github.com/processone/eturnal). They can also be used as STUN servers.
 
 Once deployed, add your TURN server’s URL and credentials to your `TubeContext`.
 
@@ -260,5 +246,38 @@ This approach requires additional setup, such as generating credentials dynamica
 There are also third-party TURN hosting services available, but most are paid solutions.
 
 
+### TURN server: 
+
+AndrooDev provides a free TURN server at: https://api.androodev.com/turn using Cloudflare RealTime. You can also sign up and host one yourself. See [this PR](https://github.com/jonandrewdavis/AndrooDev-Friendslop-Co-Op-Tutorial-Part-2/pull/2) for a full example. Sample below:
+
+```GDScript
+func _on_request_completed(_result, _response_code, _headers, body):
+	var response: Dictionary = JSON.parse_string(body.get_string_from_utf8())
+
+	if response and response.has("iceServers"):
+		temp_ice = response["iceServers"][1]
+		tube_client.context.turn_servers.append(temp_ice)
+		prints("DEBUG", tube_client.context.turn_servers)
+
+func set_turn_enabled(is_enabled: bool):
+	if is_enabled and temp_ice:
+		tube_client.context.turn_servers.append(temp_ice)
+	elif is_enabled:
+		new_http_client.request("https://api.androodev.com/turn")
+	else:
+		tube_client.context.turn_servers = []
+```
+
+
 ## Credits
+Original credit: Koop Myers [https://github.com/koopmyers/tube](https://github.com/koopmyers/tube)
 Inspector icons: https://www.kenney.nl/assets/game-icons
+
+
+### Current Maintainer: 
+
+After failing to reach Koop Myers, I have forked the project to continue it. Reach out with any questions.
+
+|             Twitch              |              Youtube               |   Discord                |
+| :-----------------------------: | :--------------------------------: | :----------------------: |
+| https://www.twitch.tv/androodev | https://www.youtube.com/@AndrooDev |  https://discord.gg/aptc7d7V9u |

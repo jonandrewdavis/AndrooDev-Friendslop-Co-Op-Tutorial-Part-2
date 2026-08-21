@@ -182,8 +182,6 @@ func send_stop(p_info_hash: String, p_peer_id_hash: String) -> Error:
 
 
 func _received_packet(p_packet: PackedByteArray):
-
-
 	var data = decode_packet(p_packet)
 	if not data is Dictionary:
 		raise_warning("Received invalid packet: {packet}".format({
@@ -322,11 +320,12 @@ static func get_sdp_from_ice_candidate_data(p_data: Dictionary) -> String:
 
 func _process(delta: float):
 	socket.poll() # push error when 502 bad gateway, doesn't block anything
-
+	
 	var old_state := state
 	state = socket.get_ready_state()
 	if state != old_state:
 		state_changed.emit()
+	
 	
 	if WebSocketPeer.STATE_CONNECTING == state:
 		connecting_time += delta
