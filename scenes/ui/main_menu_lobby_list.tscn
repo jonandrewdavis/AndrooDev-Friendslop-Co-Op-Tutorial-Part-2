@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://0anymeg5ohuk"]
+
+[ext_resource type="Script" uid="uid://cq22aljgm17pv" path="res://scenes/ui/main_menu_lobby_list.gd" id="1_x87en"]
+
+[node name="LobbyList" type="VBoxContainer" unique_id=1561550487]
+custom_minimum_size = Vector2(200, 0)
+script = ExtResource("1_x87en")

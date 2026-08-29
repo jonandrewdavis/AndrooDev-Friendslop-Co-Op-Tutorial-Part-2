@@ -53,6 +53,10 @@ signal peer_stabilized(peer_id: int)
 ## Emitted when an error occurs during session. [code]message[/code] is a human-readable description of the error.
 signal error_raised(code: SessionError, message: String)
 
+## Emitted when a tracker answers a scrape request triggered by [method perform_scrape].
+## [param lobbies] is keyed by app_id, each value an Array of session id Strings.
+signal lobbies_received(lobbies: Dictionary)
+
 
 signal _session_initiated
 signal _local_signaling_peer_initiated(signaling_peer: TubeLocalSignalingPeer)
@@ -184,7 +188,7 @@ func _ready() -> void:
 
 ## Creates a new multiplayer session.
 ## Emits [signal session_created] if successful, or [signal error_raised] with [code]SessionError.CREATE_SESSION_FAILED[/code] if failed.
-func create_session() -> void:
+func create_session(custom_session_id: String = "") -> void:
 	if not is_inside_tree():
 		_session_initiated.emit()
 		_raise_error(SessionError.CREATE_SESSION_FAILED, "Session creation failed, client is not inside tree")
@@ -206,7 +210,11 @@ func create_session() -> void:
 		return
 	
 	state = State.CREATING_SESSION
-	session_id = context.generate_session_id()
+	if custom_session_id != "":
+		session_id = custom_session_id
+	else:
+		session_id = context.generate_session_id()
+
 	peer_id = _SERVER_PEER_ID
 	refuse_new_connections = false
 	_session_initiated.emit()
@@ -304,6 +312,15 @@ func leave_session() -> void:
 	_terminate_session()
 
 
+## Asks every connected tracker for its list of currently tracked lobbies.
+## Pass an app_id to list only that app's lobbies; omit it to list every lobby.
+## Results arrive asynchronously on [signal lobbies_received]. No-op when there
+## are no open trackers (e.g. outside of a session).
+func perform_scrape(p_app_id: String = "", p_info_hash: String = "") -> void:
+	for i_tracker in _trackers:
+		i_tracker.perform_scrape(p_app_id, p_info_hash)
+
+
 # SIGNALING ###
 
 
@@ -387,6 +404,9 @@ func _initiate_tracker(p_url: String) -> void:
 	)
 	tracker.received_answer.connect(
 		_handle_tracker_answer.bind(tracker)
+	)
+	tracker.received_scrape.connect(
+		lobbies_received.emit
 	)
 	tracker.interval_timeout.connect(
 		_on_tracker_interval_timeout.bind(tracker)

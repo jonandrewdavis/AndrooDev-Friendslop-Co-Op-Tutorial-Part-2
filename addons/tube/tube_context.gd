@@ -123,7 +123,7 @@ func generate_session_id() -> String:
 
 ## Validates if a session ID is correct
 func is_session_id_valid(p_session_id: String) -> bool:
-	return 5 == p_session_id.length()
+	return 8 == p_session_id.length() or 5 == p_session_id.length() 
 
 
 ## Validates if a peer ID hash is numeric and valid.
@@ -138,11 +138,9 @@ func get_info_hash(p_session_id: String) -> String:
 	
 	return app_id + p_session_id
 
-
 ## Converts a integer peer ID hash into an peer ID hash for tracker usage.
 func get_peer_id_hash(p_peer_id: int) -> String:
 	return str(p_peer_id).pad_zeros(20)
-
 
 ## Converts a peer ID hash into an integer peer ID.
 func get_peer_id(p_peer_id_hash: String) -> int:
